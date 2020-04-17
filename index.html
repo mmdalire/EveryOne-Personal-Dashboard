@@ -1,30 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>JS Landing Page</title>
-        <link rel="stylesheet" href="style.css">
-        <script defer src="https://kit.fontawesome.com/9f767eca8f.js" crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <div class="container">
-            <div class="wallpaper-change">
-                <!--<div class="wallpaper-1"></div>
-                <div class="wallpaper-2"></div>
-                <div class="wallpaper-3"></div>
-                <div class="wallpaper-4"></div>
-                <div class="rain-day"></div>-->
-                <div class="rain-night"></div>
-            </div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Landing Page</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="https://kit.fontawesome.com/9f767eca8f.js" crossorigin="anonymous"></script>
+    <script defer src="main.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="wallpaper-change-time">
+            <div class="wallpaper active"></div>
+            <div class="wallpaper"></div>
+            <div class="wallpaper"></div>
+            <div class="wallpaper"></div>
         </div>
-        <footer>
-            <img src="images/js-logo.png" id="logo" alt="JS logo">
-            <div class="footer__title">
-                <h1>JS Landing Page</name></h1>
-                <h3>Date started: <date>April 16, 2020</date></h3>
-                <h3>Date ended: <date></date></h3>
-            </div>
-        </footer>
-    </body>
+        <div class="wallpaper-change-weather">
+            <div class="rain-day"></div>
+            <div class="rain-night"></div>
+        </div>
+        <div class="text-display">
+            <h2></h2>
+            <h3>
+                <span id="greeting">Good morning, </span>
+                <span id="greeting-person" contenteditable="true">[Enter name here]</span>
+            </h3>
+            <h3>
+                <span id="message">What is your main focus for today?</span>
+                <span id="message-content" contenteditable="true"></span>
+            </h3>
+        </div>
+        <div class="todo-logo">
+            dksjd
+        </div>
+    </div>
+    <footer>
+        <img src="images/js-logo.png" id="logo" alt="JS logo">
+        <div class="footer__title">
+            <h1>JS Landing Page</name>
+            </h1>
+            <h3>Date started: <date>April 16, 2020</date>
+            </h3>
+            <h3>Date ended: <date></date>
+            </h3>
+        </div>
+    </footer>
+</body>
+
 </html>
