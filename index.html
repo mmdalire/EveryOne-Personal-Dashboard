@@ -12,29 +12,40 @@
 
 <body>
     <div class="container">
-        <div class="wallpaper-change-time">
-            <div class="wallpaper active"></div>
-            <div class="wallpaper"></div>
-            <div class="wallpaper"></div>
-            <div class="wallpaper"></div>
-        </div>
-        <div class="wallpaper-change-weather">
-            <div class="rain-day"></div>
-            <div class="rain-night"></div>
+        <div class="todo-container">
+            <div class="todo-icon-container">
+                <i class="fas fa-clipboard-list fa-3x" id="todo-icon"></i>
+                <div id="todo-text">To do</div>
+            </div>
+            <div class="todo-list-container">
+                <i class="fas fa-times" id="todo-close"></i>
+                <button id="add-todo">+ Add todo</button>
+                <div class="todo-lists">
+                    <div class="todo-item">
+                        <h2>Task 1</h2>
+                        <h3>Due: Tomorrow</h3>
+                        <hr>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus, commodi!</p>
+                    </div>
+                    <div class="todo-item">
+                        <h2>Task 1</h2>
+                        <h3>Due: Tomorrow</h3>
+                        <hr>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus, commodi!</p>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="text-display">
-            <h2></h2>
+            <h2 id="time"></h2>
             <h3>
-                <span id="greeting">Good morning, </span>
+                <span id="greeting"></span>
                 <span id="greeting-person" contenteditable="true">[Enter name here]</span>
             </h3>
             <h3>
                 <span id="message">What is your main focus for today?</span>
                 <span id="message-content" contenteditable="true"></span>
             </h3>
-        </div>
-        <div class="todo-logo">
-            dksjd
         </div>
     </div>
     <footer>
