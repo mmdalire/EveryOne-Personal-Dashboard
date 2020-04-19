@@ -20,19 +20,32 @@
             <div class="todo-list-container">
                 <i class="fas fa-times" id="todo-close"></i>
                 <button id="add-todo">+ Add todo</button>
+                <div class="add-todo-lists">
+                    <label for="name-of-todo">Name: </label><br>
+                    <input type="text" id="name-of-todo" placeholder="Required"><br>
+
+                    <label for="date-of-todo">Date: </label><br>
+                    <input type="date" id="date-of-todo"><br>
+
+                    <label for="time-of-todo">Time: </label><br>
+                    <input type="time" id="time-of-todo"><br>
+
+                    <label for="description-of-todo">Description: </label>
+                    <textarea name="description-of-todo" id="description-of-todo" placeholder="Optional"></textarea><br>
+
+                    <input type="submit" value="Add todo" id="create-todo">
+                </div>
                 <div class="todo-lists">
-                    <div class="todo-item">
+                    <!--<div class="todo-item">
+                        <i class="fas fa-minus-circle" id="delete-icon"></i>
                         <h2>Task 1</h2>
-                        <h3>Due: Tomorrow</h3>
+                        <h4>Due:
+                            <span id="due-date">Tomorrow</span>
+                            <span id="due-time">20:00</span>
+                        </h4>
                         <hr>
                         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus, commodi!</p>
-                    </div>
-                    <div class="todo-item">
-                        <h2>Task 1</h2>
-                        <h3>Due: Tomorrow</h3>
-                        <hr>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus, commodi!</p>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>

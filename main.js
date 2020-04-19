@@ -5,6 +5,15 @@ let displayAmOrPm = true; //Check whether to display 12 or 24 hr format
 const greetingPerson = document.querySelector('#greeting-person');
 //For message
 const messageContent = document.querySelector('#message-content');
+//To do variables
+const todoLogo = document.querySelector('.todo-icon-container');
+const todoClose = document.querySelector('#todo-close');
+const todoNavbar = document.querySelector('.todo-list-container');
+//Add to do variables
+const addToListButton = document.querySelector('#add-todo');
+const addToDoList = document.querySelector('.add-todo-lists');
+//Create to do item
+const createToDo = document.querySelector('#create-todo');
 
 //Parse zero whenever the time is in one digit (except hours)
 const parseZero = time => time < 10 ? "0" + time : time;
@@ -39,7 +48,7 @@ const changeTime = () => {
   }
 
   //Make the clock run automatically
-  setInterval(changeTime, 1000);
+  //setInterval(changeTime, 1000);
 };
 
 const changeWallpaper = hours => {
@@ -55,7 +64,7 @@ const changeWallpaper = hours => {
   //Daylight
   else if(hours >= 8 && hours < 17) {
     wallpaper.style.background = 'url(images/daylight.jpg)';
-    wallpaper.style.backgroundPosition = '0 0';
+    wallpaper.style.backgroundPosition = '0 -400px';
     wallpaper.style.backgroundSize = 'cover';
     wallpaper.style.backgroundRepeat = 'no-repeat';
     wallpaper.style.transition = '1s all';
@@ -97,6 +106,65 @@ const doesNameExists = () => {
 const doesMessageExists = () => {
   if(localStorage.getItem('message') === null) return;
   messageContent.textContent = localStorage.getItem('message').toString();
+}
+
+//Validation of data in input
+const validateToDoItem = () => {
+  const name = document.querySelector('#name-of-todo');
+  const date = document.querySelector('#date-of-todo');
+  const time = document.querySelector('#time-of-todo');
+  let hasErrors = false;
+
+  if(name.value === '' || name.value === undefined) {
+    hasErrors = true;
+    name.style.border = 'solid 2px red';
+  }
+  else {
+    name.style.border = 'none';
+  }
+
+  if(date.value === undefined || date.value === '') {
+    hasErrors = true;
+    date.style.border = 'solid 2px red';
+  }
+  else {
+    date.style.border = 'none';
+  }
+  if(time.value === undefined || time.value === '') {
+    hasErrors = true;
+    time.style.border = 'solid 2px red';
+  }
+  else {
+    time.style.border = 'none';
+  }
+
+  return hasErrors;
+}
+
+//Create a new to do item 
+const createToDoItem = () => {
+  if(validateToDoItem() === true) return;
+  const newToDoItem = document.createElement('div');
+  newToDoItem.className = 'todo-item';
+
+  const newToDoName = document.createElement('h2');
+  const newToDoDateAndTime = document.createElement('h4');
+  const separator = document.createElement('hr');
+  const newToDoDescription = document.createElement('p');
+
+  const todoList = document.querySelector('.todo-lists');
+
+  newToDoName.textContent = document.querySelector('#name-of-todo').value;
+  newToDoDateAndTime.textContent = document.querySelector('#date-of-todo').value;
+  //newToDoTime.textContent = document.querySelector('#time-of-todo').value;
+  newToDoDescription.textContent = document.querySelector('#description-of-todo').value;
+
+  newToDoItem.appendChild(newToDoName);
+  newToDoItem.appendChild(newToDoDateAndTime);
+  newToDoItem.appendChild(separator);
+  newToDoItem.appendChild(newToDoDescription);
+
+  todoList.appendChild(newToDoItem);
 }
 
 changeTime();
@@ -141,14 +209,28 @@ messageContent.addEventListener('blur', () => {
   localStorage.setItem('message', messageContent.textContent);
 });
 
-const todoLogo = document.querySelector('.todo-icon-container');
-const todoClose = document.querySelector('#todo-close');
-const todoNavbar = document.querySelector('.todo-list-container');
-
+//To do section
 todoLogo.addEventListener('click', () => {
   todoNavbar.style.right = '0';
-})
+});
 
 todoClose.addEventListener('click', () => {
   todoNavbar.style.right = '-300px';
-})
+});
+
+//Add to do button
+addToListButton.addEventListener('click', () => {
+  if(addToDoList.style.display === 'none'){
+    addToListButton.textContent = 'Close';
+    addToDoList.style.display = 'block';
+  }
+  else {
+    addToListButton.textContent = '+ Add todo';
+    addToDoList.style.display = 'none';
+  }
+});
+
+//Once the create to do is placed
+createToDo.addEventListener('click', () => {
+  createToDoItem();
+});
