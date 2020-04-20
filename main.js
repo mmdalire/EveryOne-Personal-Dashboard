@@ -115,6 +115,7 @@ const validateToDoItem = () => {
   const time = document.querySelector('#time-of-todo');
   let hasErrors = false;
 
+  //Name input is empty
   if(name.value === '' || name.value === undefined) {
     hasErrors = true;
     name.style.border = 'solid 2px red';
@@ -123,6 +124,7 @@ const validateToDoItem = () => {
     name.style.border = 'none';
   }
 
+  //Date is empty
   if(date.value === undefined || date.value === '') {
     hasErrors = true;
     date.style.border = 'solid 2px red';
@@ -130,6 +132,8 @@ const validateToDoItem = () => {
   else {
     date.style.border = 'none';
   }
+
+  //Time is empty
   if(time.value === undefined || time.value === '') {
     hasErrors = true;
     time.style.border = 'solid 2px red';
@@ -141,30 +145,100 @@ const validateToDoItem = () => {
   return hasErrors;
 }
 
+const clearFormat = () => {
+  document.querySelector('#name-of-todo').value = '';
+  document.querySelector('#date-of-todo').value = '';
+  document.querySelector('#time-of-todo').value = '';
+  document.querySelector('#description-of-todo').value = '';
+}
+
 //Create a new to do item 
 const createToDoItem = () => {
-  if(validateToDoItem() === true) return;
-  const newToDoItem = document.createElement('div');
-  newToDoItem.className = 'todo-item';
+  if(validateToDoItem() === true) return; //Does not create an element when one of the inputs is invalid
 
-  const newToDoName = document.createElement('h2');
-  const newToDoDateAndTime = document.createElement('h4');
-  const separator = document.createElement('hr');
-  const newToDoDescription = document.createElement('p');
+  //Create elements
+  const todoItem = document.createElement('div');
+  const todoHeader = document.createElement('div');
+  const todoDone = document.createElement('span');
+  const todoTitle = document.createElement('div');
+  const todoItemName = document.createElement('h2');
+  const todoDue = document.createElement('h4');
+  const todoDueDate = document.createElement('span');1
+  const todoDueTime = document.createElement('span');
+  const todoSeparator = document.createElement('hr');
+  const todoDescription = document.createElement('p');
+  const todoDelete = document.createElement('div');
 
-  const todoList = document.querySelector('.todo-lists');
+  //Assigning the delete option
+  const todoChecklist = document.createElement('i');
+  todoChecklist.setAttribute('class', 'far fa-circle');
+  todoChecklist.setAttribute('id', 'checklist');
 
-  newToDoName.textContent = document.querySelector('#name-of-todo').value;
-  newToDoDateAndTime.textContent = document.querySelector('#date-of-todo').value;
-  //newToDoTime.textContent = document.querySelector('#time-of-todo').value;
-  newToDoDescription.textContent = document.querySelector('#description-of-todo').value;
+  //Assigning classes or ids to elements
+  todoItem.setAttribute('class', 'todo-item');
+  todoHeader.setAttribute('class', 'todo-header');
+  todoDone.setAttribute('id', 'done-todo');
+  todoTitle.setAttribute('class', 'todo-title');
+  todoDueDate.setAttribute('id', 'due-date');
+  todoDueTime.setAttribute('id', 'due-time');
+  todoDelete.setAttribute('class', 'todo-delete');
 
-  newToDoItem.appendChild(newToDoName);
-  newToDoItem.appendChild(newToDoDateAndTime);
-  newToDoItem.appendChild(separator);
-  newToDoItem.appendChild(newToDoDescription);
+  //Placing of content to elements
+  todoItemName.textContent = document.querySelector('#name-of-todo').value;
+  todoDue.textContent = 'Due: ';
+  todoDueDate.textContent = document.querySelector('#date-of-todo').value + ' ';
+  todoDueTime.textContent = document.querySelector('#time-of-todo').value;
+  todoDescription.textContent = document.querySelector('#description-of-todo').value;
+  todoDelete.textContent = 'Delete';
 
-  todoList.appendChild(newToDoItem);
+  todoDone.appendChild(todoChecklist);
+
+  todoDue.appendChild(todoDueDate);
+  todoDue.appendChild(todoDueTime);
+
+  todoTitle.appendChild(todoItemName);
+  todoTitle.appendChild(todoDue);
+
+  todoHeader.appendChild(todoDone);
+  todoHeader.appendChild(todoTitle);
+
+  todoItem.appendChild(todoHeader);
+  todoItem.appendChild(todoSeparator);
+  todoItem.appendChild(todoDescription);
+  todoItem.appendChild(todoDelete);
+  
+  document.querySelector('.todo-lists').appendChild(todoItem);
+
+  //Event listeners
+  //Check or uncheck the task in the to do
+  todoChecklist.addEventListener('click', () => {
+    if(todoItem.style.color === 'white') {
+      todoChecklist.style.borderRadius = '20px';
+      todoChecklist.style.border = '3px solid green';
+      todoChecklist.style.backgroundColor = 'green';
+      todoItem.style.color = 'gray';
+    }
+    else {
+      todoChecklist.style.borderRadius = '20px';
+      todoChecklist.style.border = '3px solid transparent';
+      todoChecklist.style.backgroundColor = 'transparent';
+      todoItem.style.color = 'white';
+    }
+  });
+
+  //Display the delete option in every task
+  todoItem.addEventListener('click', () => {
+    todoDelete.style.color = 'white';
+    if(todoDelete.style.display === 'none') todoDelete.style.display = 'block';
+    else todoDelete.style.display = 'none';
+  });
+
+  //Deletes the task
+  todoDelete.addEventListener('click', () => {
+    document.querySelector('.todo-lists').removeChild(todoItem);
+  });
+
+  clearFormat(); //Clears the format
 }
 
 changeTime();

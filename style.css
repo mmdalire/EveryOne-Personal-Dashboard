@@ -153,19 +153,6 @@ input[type="submit"] {
   outline: none;
 }
 
-#delete-icon {
-  border: 2px solid white;
-  border-radius: 50%;
-  font-size: 20px;
-  transition: 0.5s all;
-  cursor: pointer;
-}
-
-#delete-icon:hover {
-  color: red;
-  transform: rotate(90deg);
-}
-
 .add-todo-lists {
   display: none;
   text-align: left;
@@ -186,6 +173,33 @@ input[type="submit"] {
   margin: 0 15px 10px 15px;
   background-color: rgb(255, 255, 255, 0.5);
   border-radius: 10px;
+  color: white;
+}
+
+.todo-header {
+  display: flex;
+}
+
+#done-todo {
+  display: inline-block;
+  margin: auto 10px;
+}
+
+.todo-delete {
+  display: none;
+  font-size: 20px;
+  margin: 10px -10px -10px -10px;
+  padding: 10px;
+  background-color: rgba(236, 2, 2, 0.87);
+  text-align: center;
+  transition: 0.5s display;
+  cursor: pointer;
+}
+
+#checklist {
+  font-size: 25px;
+  cursor: pointer;
+  border: 3px solid transparent;
 }
 
 .todo-item hr {
