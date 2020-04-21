@@ -98,14 +98,14 @@ const changeGreeting = hours => {
 
 //Check if a name exists in the local storage
 const doesNameExists = () => {
-  if(localStorage.getItem('name') === null) return;
-  greetingPerson.textContent = localStorage.getItem('name').toString();
+  if(localStorage.getItem('GREET-NAME') === null) return;
+  greetingPerson.textContent = localStorage.getItem('GREET-NAME').toString();
 }
 
 //Check if a message exists
 const doesMessageExists = () => {
-  if(localStorage.getItem('message') === null) return;
-  messageContent.textContent = localStorage.getItem('message').toString();
+  if(localStorage.getItem('MESSAGE') === null) return;
+  messageContent.textContent = localStorage.getItem('MESSAGE').toString();
 }
 
 //Validation of data in input
@@ -143,13 +143,6 @@ const validateToDoItem = () => {
   }
 
   return hasErrors;
-}
-
-const clearFormat = () => {
-  document.querySelector('#name-of-todo').value = '';
-  document.querySelector('#date-of-todo').value = '';
-  document.querySelector('#time-of-todo').value = '';
-  document.querySelector('#description-of-todo').value = '';
 }
 
 //Create a new to do item 
@@ -209,38 +202,77 @@ const createToDoItem = () => {
   
   document.querySelector('.todo-lists').appendChild(todoItem);
 
-  //Event listeners
+  todoListeners(todoItem, todoChecklist, todoDelete); //Event listeners
+  saveToDo(todoItem); //Save the todo item to local storage
+  clearFormat(); //Clears the format
+}
+
+//Event listeners to be added in each to do 
+const todoListeners = (item, checklistItem, deleteItem) => {
   //Check or uncheck the task in the to do
-  todoChecklist.addEventListener('click', () => {
-    if(todoItem.style.color === 'white') {
-      todoChecklist.style.borderRadius = '20px';
-      todoChecklist.style.border = '3px solid green';
-      todoChecklist.style.backgroundColor = 'green';
-      todoItem.style.color = 'gray';
+  checklistItem.addEventListener('click', () => {
+    if(item.style.color === 'white') {
+      checklistItem.style.borderRadius = '20px';
+      checklistItem.style.border = '3px solid green';
+      checklistItem.style.backgroundColor = 'green';
+      item.style.color = 'gray';
     }
     else {
-      todoChecklist.style.borderRadius = '20px';
-      todoChecklist.style.border = '3px solid transparent';
-      todoChecklist.style.backgroundColor = 'transparent';
-      todoItem.style.color = 'white';
+      checklistItem.style.borderRadius = '20px';
+      checklistItem.style.border = '3px solid transparent';
+      checklistItem.style.backgroundColor = 'transparent';
+      item.style.color = 'white';
     }
   });
 
   //Display the delete option in every task
-  todoItem.addEventListener('click', () => {
-    todoDelete.style.color = 'white';
-    if(todoDelete.style.display === 'none') todoDelete.style.display = 'block';
-    else todoDelete.style.display = 'none';
+  item.addEventListener('click', () => {
+    deleteItem.style.color = 'white';
+    if(deleteItem.style.display === 'none') deleteItem.style.display = 'block';
+    else deleteItem.style.display = 'none';
   });
 
   //Deletes the task
-  todoDelete.addEventListener('click', () => {
-    document.querySelector('.todo-lists').removeChild(todoItem);
+  deleteItem.addEventListener('click', () => {
+    localStorage.removeItem(item.querySelector('.todo-title h2').textContent);
+    document.querySelector('.todo-lists').removeChild(item);
   });
-
-  clearFormat(); //Clears the format
 }
 
+//Clear the input format
+const clearFormat = () => {
+  document.querySelector('#name-of-todo').value = '';
+  document.querySelector('#date-of-todo').value = '';
+  document.querySelector('#time-of-todo').value = '';
+  document.querySelector('#description-of-todo').value = '';
+}
+
+//Saving the todo item to local storage
+const saveToDo = todoItem => {
+  const todoName = todoItem.querySelector('.todo-item h2').textContent;
+  localStorage.setItem(todoName, todoItem.outerHTML);
+}
+
+//Retrieve the todo item in local storage
+const retrieveToDo = () => {
+  const domParser = new DOMParser();
+  const items = Object.keys(localStorage);
+  items.splice(items.indexOf('GREET-NAME'), 1);
+  items.splice(items.indexOf('MESSAGE'), 1);
+
+  //Retrieve all todo in local storage
+  for(let i = 0; i < items.length; i++) {
+    const parsedElement = domParser.parseFromString(localStorage.getItem(items[i]), 'text/html');
+    const todoItem = parsedElement.querySelector('.todo-item');
+    const todoChecklist = parsedElement.querySelector('#checklist');
+    const todoDelete = parsedElement.querySelector('.todo-delete');
+
+    todoListeners(todoItem, todoChecklist, todoDelete); //Event
+    document.querySelector('.todo-lists').appendChild(parsedElement.querySelector('.todo-item'));
+  }
+}
+
+retrieveToDo();
 changeTime();
 doesNameExists();
 doesMessageExists();
@@ -260,27 +292,27 @@ greetingPerson.addEventListener('keypress', e => {
 
   //Whenever the user clicks Enter
   if(e.key === 'Enter') {
-    localStorage.setItem('name', greetingPerson.textContent);
+    localStorage.setItem('GREET-NAME', greetingPerson.textContent);
     greetingPerson.blur();
   }
 });
 
 //When a user clicks out of the text
 greetingPerson.addEventListener('blur', () => {
-  localStorage.setItem('name', greetingPerson.textContent);
+  localStorage.setItem('GREET-NAME', greetingPerson.textContent);
 })
 
 //When a user clicks enter in message box
 messageContent.addEventListener('keypress', e => {
   if(e.key === 'Enter') {
-    localStorage.setItem('message', messageContent.textContent);
+    localStorage.setItem('MESSAGE', messageContent.textContent);
     messageContent.blur();
   }
 });
 
 //When a user clicks out of the message box
 messageContent.addEventListener('blur', () => {
-  localStorage.setItem('message', messageContent.textContent);
+  localStorage.setItem('MESSAGE', messageContent.textContent);
 });
 
 //To do section
