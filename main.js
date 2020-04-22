@@ -166,6 +166,7 @@ const createToDoItem = () => {
   const todoChecklist = document.createElement('i');
   todoChecklist.setAttribute('class', 'far fa-circle');
   todoChecklist.setAttribute('id', 'checklist');
+  todoChecklist.setAttribute('checked', '');
 
   //Assigning classes or ids to elements
   todoItem.setAttribute('class', 'todo-item');
@@ -183,11 +184,14 @@ const createToDoItem = () => {
   todoDueTime.textContent = document.querySelector('#time-of-todo').value;
   todoDescription.textContent = document.querySelector('#description-of-todo').value;
   todoDelete.textContent = 'Delete';
+  
+  //Convert date and time to more readable display
+  const dateAndTime = compareDates(todoDueDate, todoDueTime);
 
   todoDone.appendChild(todoChecklist);
 
-  todoDue.appendChild(todoDueDate);
-  todoDue.appendChild(todoDueTime);
+  todoDue.appendChild(dateAndTime[0]);
+  todoDue.appendChild(dateAndTime[1]);
 
   todoTitle.appendChild(todoItemName);
   todoTitle.appendChild(todoDue);
@@ -216,13 +220,19 @@ const todoListeners = (item, checklistItem, deleteItem) => {
       checklistItem.style.border = '3px solid green';
       checklistItem.style.backgroundColor = 'green';
       item.style.color = 'gray';
+
+      checklistItem.setAttribute('checked', 'true');
     }
     else {
       checklistItem.style.borderRadius = '20px';
       checklistItem.style.border = '3px solid transparent';
       checklistItem.style.backgroundColor = 'transparent';
       item.style.color = 'white';
+
+      checklistItem.setAttribute('checked', 'false');
     }
+    //Save state
+    localStorage.setItem(item.querySelector('.todo-title h2').textContent, item.outerHTML);
   });
 
   //Display the delete option in every task
@@ -237,6 +247,39 @@ const todoListeners = (item, checklistItem, deleteItem) => {
     localStorage.removeItem(item.querySelector('.todo-title h2').textContent);
     document.querySelector('.todo-lists').removeChild(item);
   });
+}
+
+//Comparing of dates in todo
+const compareDates = (todoDate, todoTime) => {
+  const inputDate = new Date(`${todoDate.textContent} ${todoTime.textContent}`); //Get the input date
+  const todayDate = new Date(); //Get the current date
+  inputDate.setSeconds(0);
+  todayDate.setSeconds(0);
+
+  //Display the to do if it is overdue
+  if(inputDate < todayDate) {
+    todoDate.style.color = 'red';
+    todoTime.style.color = 'red';
+    return [todoDate, todoTime];
+  }
+  //Display whether the to do is due on the day or overdue
+  else if(inputDate.getFullYear() === todayDate.getFullYear() && inputDate.getMonth() + 1 === todayDate.getMonth() + 1 
+  && inputDate.getDate() === todayDate.getDate()) {
+    if(inputDate.getHours() === todayDate.getHours()) {
+      todoDate.style.color = 'orange';
+      todoTime.style.color = 'orange';
+      return [todoDate, todoTime];
+    }
+    else {
+      todoDate.style.color = 'red';
+      todoTime.style.color = 'red';
+      return [todoDate, todoTime];
+    }
+  } 
+  //Display the to do if not overdue
+  else {
+    return [todoDate, todoTime];
+  }
 }
 
 //Clear the input format
@@ -256,9 +299,8 @@ const saveToDo = todoItem => {
 //Retrieve the todo item in local storage
 const retrieveToDo = () => {
   const domParser = new DOMParser();
-  const items = Object.keys(localStorage);
-  items.splice(items.indexOf('GREET-NAME'), 1);
-  items.splice(items.indexOf('MESSAGE'), 1);
+  let items = Object.keys(localStorage);
+  items = items.filter(elements => elements !== 'MESSAGE' && elements !== 'GREET-NAME');
 
   //Retrieve all todo in local storage
   for(let i = 0; i < items.length; i++) {
@@ -272,10 +314,22 @@ const retrieveToDo = () => {
   }
 }
 
-retrieveToDo();
+//Update the dates in todo item in local storage
+const updateToDo = () => {
+  const todoDate = document.querySelectorAll('#due-date');
+  const todoTime = document.querySelectorAll('#due-time');
+
+  console.log(todoDate.length);
+  for(let i = 0; i < todoDate.length; i++) {
+    const todoDue = compareDates(todoDate[i], todoTime[i]);
+  }
+}
+
 changeTime();
 doesNameExists();
 doesMessageExists();
+retrieveToDo();
+updateToDo();
 
 //Toggle when the user wants 12 or 24 hour format
 displayTime.addEventListener('click', () => {
