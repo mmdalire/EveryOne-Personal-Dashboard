@@ -5,6 +5,7 @@ let displayAmOrPm = true; //Check whether to display 12 or 24 hr format
 const greetingPerson = document.querySelector('#greeting-person');
 //For message
 const messageContent = document.querySelector('#message-content');
+
 //To do variables
 const todoLogo = document.querySelector('.todo-icon-container');
 const todoClose = document.querySelector('#todo-close');
@@ -14,6 +15,11 @@ const addToListButton = document.querySelector('#add-todo');
 const addToDoList = document.querySelector('.add-todo-lists');
 //Create to do item
 const createToDo = document.querySelector('#create-todo');
+
+//Weather variables
+const weatherLogo = document.querySelector('.weather-icon-container');
+const weatherClose = document.querySelector('.weather-list-container #todo-close');
+const weatherNavbar = document.querySelector('.weather-list-container');
 
 //Parse zero whenever the time is in one digit (except hours)
 const parseZero = time => time < 10 ? "0" + time : time;
@@ -33,14 +39,10 @@ const changeTime = () => {
 
   //Wants to display 12 hour
   if(displayAmOrPm === true) {
-    //If AM
-    if(hours < 12) {
-      displayTime.textContent = `${hours % 12}:${parseZero(minutes)}:${parseZero(seconds)} AM`;
-    }
-    //Or PM
-    else {
-      displayTime.textContent = `${hours % 12}:${parseZero(minutes)}:${parseZero(seconds)} PM`;
-    } 
+    displayTime.textContent = `${hours % 12 === 0 ? 12 : hours % 12}:${parseZero(minutes)}:${parseZero(seconds)}`;
+
+    if(hours < 12) displayTime.textContent += ` AM`; //If AM
+    else displayTime.textContent += ` PM`; //Or PM
   }
   //Display 24 hour
   else {
@@ -253,8 +255,8 @@ const todoListeners = (item, checklistItem, deleteItem) => {
 const compareDates = (todoDate, todoTime) => {
   const inputDate = new Date(`${todoDate.textContent} ${todoTime.textContent}`); //Get the input date
   const todayDate = new Date(); //Get the current date
-  inputDate.setSeconds(0);
-  todayDate.setSeconds(0);
+  inputDate.setSeconds(0,0);
+  todayDate.setSeconds(0,0);
 
   //Display the to do if it is overdue
   if(inputDate < todayDate) {
@@ -265,16 +267,9 @@ const compareDates = (todoDate, todoTime) => {
   //Display whether the to do is due on the day or overdue
   else if(inputDate.getFullYear() === todayDate.getFullYear() && inputDate.getMonth() + 1 === todayDate.getMonth() + 1 
   && inputDate.getDate() === todayDate.getDate()) {
-    if(inputDate.getHours() === todayDate.getHours()) {
       todoDate.style.color = 'orange';
       todoTime.style.color = 'orange';
       return [todoDate, todoTime];
-    }
-    else {
-      todoDate.style.color = 'red';
-      todoTime.style.color = 'red';
-      return [todoDate, todoTime];
-    }
   } 
   //Display the to do if not overdue
   else {
@@ -300,7 +295,7 @@ const saveToDo = todoItem => {
 const retrieveToDo = () => {
   const domParser = new DOMParser();
   let items = Object.keys(localStorage);
-  items = items.filter(elements => elements !== 'MESSAGE' && elements !== 'GREET-NAME');
+  items = items.filter(elements => elements !== 'MESSAGE' && elements !== 'GREET-NAME').sort();
 
   //Retrieve all todo in local storage
   for(let i = 0; i < items.length; i++) {
@@ -319,7 +314,6 @@ const updateToDo = () => {
   const todoDate = document.querySelectorAll('#due-date');
   const todoTime = document.querySelectorAll('#due-time');
 
-  console.log(todoDate.length);
   for(let i = 0; i < todoDate.length; i++) {
     const todoDue = compareDates(todoDate[i], todoTime[i]);
   }
@@ -393,4 +387,15 @@ addToListButton.addEventListener('click', () => {
 //Once the create to do is placed
 createToDo.addEventListener('click', () => {
   createToDoItem();
+});
+
+//Weather section
+//Open navigation bar
+weatherLogo.addEventListener('click', () => {
+  weatherNavbar.style.top = '0';
+});
+
+//Close navigation bar
+weatherClose.addEventListener('click', () => {
+  weatherNavbar.style.top = '-180px';
 });

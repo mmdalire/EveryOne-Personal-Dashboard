@@ -133,13 +133,16 @@ input[type="submit"] {
 
 .todo-list-container {
   text-align: center;
-  width: 300px;
   height: 100vh;
   backdrop-filter: blur(20px);
-  position: absolute;
-  right: -300px;
+  position: fixed;
   transition: 0.5s all;
   color: white;
+  right: -300px;
+}
+
+.todo-list-container #todo-close {
+  width: 90%;
 }
 
 #add-todo {
@@ -204,6 +207,81 @@ input[type="submit"] {
 
 .todo-item hr {
   margin: 10px 0;
+}
+
+/*Weather part*/
+.weather-icon-container {
+  color: white;
+  border: solid 0px white;
+  position: absolute;
+  right: 44%;
+  padding: 10px;
+  margin: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.5s all;
+}
+
+.weather-icon-container:hover {
+  border: solid 3px white;
+  border-radius: 10px;
+}
+
+#weather-icon {
+  font-size: 55px;
+}
+
+#weather-text {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-top: 7px;
+}
+
+.weather-list-container {
+  position: fixed;
+  width: 100vw;
+  height: 180px;
+  backdrop-filter: blur(20px);
+  top: -180px;
+  transition: 0.5s all;
+}
+
+.weather-list-container #todo-close {
+  width: 98%;
+}
+
+.weather-information {
+  margin-top: -10px;
+  display: flex;
+}
+
+#location {
+  margin: 0 0 -3px 10px;
+}
+
+.weather-location {
+  width: 200px;
+  padding: 5px;
+  background-color: white;
+  border-radius: 20px;
+  margin: 0 10px 10px 50px;
+}
+
+#submit-location {
+  font-size: 17px;
+  font-weight: bold;
+  text-align: center;
+  background-color: transparent;
+  border: solid 2px white;
+  color: white;
+  cursor: pointer;
+}
+
+#current-weather-icon {
+  font-size: 120px;
+  height: 147px;
+  color: white;
+  margin-top: 0;
 }
 
 /*Footer*/

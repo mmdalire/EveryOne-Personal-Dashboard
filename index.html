@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EveryOne Personal Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
     <script defer src="https://kit.fontawesome.com/9f767eca8f.js" crossorigin="anonymous"></script>
     <script defer src="main.js"></script>
 </head>
@@ -36,26 +38,33 @@
                     <input type="submit" value="Add todo" id="create-todo">
                 </div>
 
-                <div class="todo-lists">
-                    <!--<div class="todo-item">
-                        <div class="todo-header">
-                            <span id="done-todo"><i class="far fa-circle" id="checklist"></i></span>
-                            <div class="todo-title">
-                                <h2>Task 1</h2>
-                                <h4>Due:
-                                    <span id="due-date">Tomorrow</span>
-                                    <span id="due-time">20:00</span>
-                                </h4>
-                            </div>
+                <div class="todo-lists"></div>
+            </div>
+        </div>
+        <div class="weather-container">
+            <div class="weather-icon-container">
+                <i class="fas fa-cloud-sun-rain fa-3x" id="weather-icon"></i>
+                <div id="weather-text">Weather</div>
+            </div>
+            <div class="weather-list-container">
+                <i class="fas fa-times" id="todo-close"></i>
+                <div class="weather-information">
+                    <div class="search-location">
+                        <div class="weather-location" id="country-location">
+                            <i class="fas fa-map-marker-alt" id="location"></i>
+                            <input type="text" id="country-input" placeholder="Enter country"><br>
                         </div>
-                        <hr>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus, commodi! Lorem ipsum,
-                            dolor sit amet consectetur adipisicing elit.
-                        </p>
-                        <div class="todo-delete">
-                            Delete
+                        <div class="weather-location" id="city-location">
+                            <i class="fas fa-map-marker-alt" id="location"></i>
+                            <input type="text" id="city-input" placeholder="Enter city"><br>
                         </div>
-                    </div>-->
+                        <div class="weather-location" id="submit-location">
+                            Send location
+                        </div>
+                    </div>
+                    <div class="weather-display">
+                        <i class="wi wi-day-sunny" id="current-weather-icon"></i>
+                    </div>
                 </div>
             </div>
         </div>
