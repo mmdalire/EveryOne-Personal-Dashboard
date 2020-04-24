@@ -278,10 +278,65 @@ input[type="submit"] {
 }
 
 #current-weather-icon {
-  font-size: 120px;
+  display: block;
+  font-size: 110px;
   height: 147px;
   color: white;
-  margin-top: 0;
+  margin: 0 40px;
+  padding-top: 10px;
+}
+
+.weather-display {
+  display: flex;
+}
+
+.weather-section {
+  color: white;
+  margin: 0 20px;
+}
+
+#weather-width {
+  width: 250px;
+}
+
+.weather-high-temperature,
+.weather-low-temperature {
+  display: inline-block;
+  background-color: orange;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.weather-low-temperature {
+  background-color: lightseagreen;
+}
+
+.weather-display-location {
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.weather-current-temperature {
+  color: white;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+#other-icon {
+  overflow: hidden;
+  display: inline-block;
+  font-size: 18px;
+  padding-top: 5px;
+}
+
+#weather-section-display {
+  padding: 3px;
+  margin: 5px 10px;
+  background-color: rgb(255, 255, 255, 0.4);
+  border-radius: 5px;
 }
 
 /*Footer*/
