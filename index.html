@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
     <script defer src="https://kit.fontawesome.com/9f767eca8f.js" crossorigin="anonymous"></script>
+    <script defer type="text/javascript" src="config.js"></script>
     <script defer src="main.js"></script>
 </head>
 
@@ -63,19 +64,25 @@
                         </div>
                     </div>
                     <div class="weather-display">
-                        <i class="wi wi-day-sunny" id="current-weather-icon"></i>
+                        <!--<i class="wi wi-day-sunny" id="current-weather-icon"></i>-->
+                        <img src="" id="current-weather" alt="Current weather icon">
                         <div class="weather-section" id="weather-width">
                             <div class="weather-display-location">
                                 <span id="city">--</span>
                                 <span id="country">--</span>
                             </div>
                             <div class="weather-current-temperature">
-                                --°C
+                                --
                             </div>
-                            <span class="weather-high-temperature">--°C</span>
-                            <span class="weather-low-temperature">--°C</span>
+                            <span class="weather-high-temperature">--</span>
+                            <span class="weather-low-temperature">--</span>
                         </div>
-                        <div class="weather-section">
+                        <div class="weather-section" id="weather-info-height">
+                            <span id="weather-section-display">
+                                <i class="wi wi-small-craft-advisory" id="other-icon"></i> Description:
+                            </span>
+                            <span id="wind-description">--</span><br>
+
                             <span id="weather-section-display">
                                 <i class="wi wi-strong-wind" id="other-icon"></i> Wind:
                             </span>

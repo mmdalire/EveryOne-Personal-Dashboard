@@ -139,6 +139,7 @@ input[type="submit"] {
   transition: 0.5s all;
   color: white;
   right: -300px;
+  width: 300px;
 }
 
 .todo-list-container #todo-close {
@@ -231,6 +232,13 @@ input[type="submit"] {
   font-size: 55px;
 }
 
+#current-weather {
+  width: 200px;
+  margin-top: -40px;
+  image-rendering: pixelated;
+  height: 200px;
+}
+
 #weather-text {
   text-transform: uppercase;
   font-weight: bold;
@@ -298,6 +306,12 @@ input[type="submit"] {
 #weather-width {
   width: 250px;
 }
+
+#weather-info-height {
+  font-size: 15px;
+  margin-top: -5px;
+  height: 250px;
+} 
 
 .weather-high-temperature,
 .weather-low-temperature {

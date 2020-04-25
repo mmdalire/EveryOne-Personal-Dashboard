@@ -21,6 +21,10 @@ const weatherLogo = document.querySelector('.weather-icon-container');
 const weatherClose = document.querySelector('.weather-list-container #todo-close');
 const weatherNavbar = document.querySelector('.weather-list-container');
 
+const countryInput = document.querySelector('#country-input');
+const cityInput = document.querySelector('#city-input');
+const submitPlaces = document.querySelector('#submit-location');
+
 //Parse zero whenever the time is in one digit (except hours)
 const parseZero = time => time < 10 ? "0" + time : time;
 
@@ -110,42 +114,6 @@ const doesMessageExists = () => {
   messageContent.textContent = localStorage.getItem('MESSAGE').toString();
 }
 
-//Validation of data in input
-const validateToDoItem = () => {
-  const name = document.querySelector('#name-of-todo');
-  const date = document.querySelector('#date-of-todo');
-  const time = document.querySelector('#time-of-todo');
-  let hasErrors = false;
-
-  //Name input is empty
-  if(name.value === '' || name.value === undefined) {
-    hasErrors = true;
-    name.style.border = 'solid 2px red';
-  }
-  else {
-    name.style.border = 'none';
-  }
-
-  //Date is empty
-  if(date.value === undefined || date.value === '') {
-    hasErrors = true;
-    date.style.border = 'solid 2px red';
-  }
-  else {
-    date.style.border = 'none';
-  }
-
-  //Time is empty
-  if(time.value === undefined || time.value === '') {
-    hasErrors = true;
-    time.style.border = 'solid 2px red';
-  }
-  else {
-    time.style.border = 'none';
-  }
-
-  return hasErrors;
-}
 
 //Create a new to do item 
 const createToDoItem = () => {
@@ -211,6 +179,43 @@ const createToDoItem = () => {
   todoListeners(todoItem, todoChecklist, todoDelete); //Event listeners
   saveToDo(todoItem); //Save the todo item to local storage
   clearFormat(); //Clears the format
+}
+
+//Validation of data in input
+const validateToDoItem = () => {
+  const name = document.querySelector('#name-of-todo');
+  const date = document.querySelector('#date-of-todo');
+  const time = document.querySelector('#time-of-todo');
+  let hasErrors = false;
+
+  //Name input is empty
+  if(name.value === '' || name.value === undefined) {
+    hasErrors = true;
+    name.style.border = 'solid 2px red';
+  }
+  else {
+    name.style.border = 'none';
+  }
+
+  //Date is empty
+  if(date.value === undefined || date.value === '') {
+    hasErrors = true;
+    date.style.border = 'solid 2px red';
+  }
+  else {
+    date.style.border = 'none';
+  }
+
+  //Time is empty
+  if(time.value === undefined || time.value === '') {
+    hasErrors = true;
+    time.style.border = 'solid 2px red';
+  }
+  else {
+    time.style.border = 'none';
+  }
+
+  return hasErrors;
 }
 
 //Event listeners to be added in each to do 
@@ -319,6 +324,111 @@ const updateToDo = () => {
   }
 }
 
+//Validate the weather inputs
+const validationWeatherInfo = (city, country) => {
+  let hasErrors = false;
+
+  //If country value is empty
+  if(country.value === undefined || country.value === '') {
+    hasErrors = true;
+    document.querySelector('#country-location').style.border = 'solid 2px red';
+  }
+  else {
+    document.querySelector('#country-location').style.border = 'none';
+  }
+
+  return hasErrors;
+}
+
+//Convert temperature from Kelvin to Celsius and Fahrenheit
+const convertTemperature = temperature => {
+  return temperature - 273.15;
+}
+
+//Convert degrees into readable direction 
+const degreesDirection = degrees => {
+  if(degrees > 0 && degrees <= 33.75) return ' ( North )';
+  else if(degrees > 33.75 && degrees <= 78.75) return ' ( North East )';
+  else if(degrees > 78.75 && degrees <= 123.75) return ' ( East )';
+  else if(degrees > 123.75 && degrees <= 168.75) return ' ( South East )';
+  else if(degrees > 168.75 && degrees <= 213.75) return ' ( South )';
+  else if(degrees > 213.75 && degrees <= 258.75) return ' ( South West )';
+  else if(degrees > 258.75 && degrees <= 303.75) return ' ( West )';
+  else if(degrees > 303.75 && degrees <= 348.75) return ' ( North West )';
+  else return ' ( North )';
+}
+
+//Cloud conversion
+const cloudinessConversion = (clouds) => {
+  if(clouds >= 0 && clouds < 10) return ' Clear ';
+  else if(clouds >= 10 && clouds < 20) return ' Fair ';
+  else if(clouds >= 20 && clouds < 30) return ' Mostly Fair ';
+  else if(clouds >= 30 && clouds < 60) return ' Partly Cloudy ';
+  else if(clouds >= 60 && clouds < 90) return ' Mostly Cloudy ';
+  else return ' Cloudy ';
+}
+
+//Process and display the weather information
+const getWeatherData = (city, country) => {
+  if(validationWeatherInfo(city, country)) return;
+
+  //Declarations of some info for fetching data
+  const weatherKey = keys.WEATHER_KEY; //API key
+  const apiUrl = 'api.openweathermap.org/data/2.5/weather?q=';
+  const cityInput = city.value ? city.value + ',' : '';
+  const countryInput = country.value;
+  const api = `http://${apiUrl}${cityInput}${countryInput}&appid=${weatherKey}`;
+
+  //Fetching the data
+  fetch(api)
+  .then(response => response.json()) //Get the body of data
+  .then(data => {
+    //Image logo
+    const imageTemperature = document.querySelector('#current-weather');
+    const imageId = data.weather[0].icon;
+    //Naming display
+    const cityDisplayName = document.querySelector('#city');
+    const countryDisplayName = document.querySelector('#country');
+    //Main temperature
+    const mainTemperature = document.querySelector('.weather-current-temperature');
+    //Minimum and maximum temperature
+    const maxTemperature = document.querySelector('.weather-high-temperature');
+    const minTemperature = document.querySelector('.weather-low-temperature');
+    //Other information
+    const description = document.querySelector('#wind-description');
+    const wind = document.querySelector('#wind-information');
+    const cloudiness = document.querySelector('#cloud-information');
+    const pressure = document.querySelector('#pressure-information');
+    const humidity = document.querySelector('#humidity-information');
+    const sunriseTime = document.querySelector('#sunrise-information');
+    const sunsetTime = document.querySelector('#sunset-information');
+
+    //Set the image source
+    imageTemperature.setAttribute('src', `http://openweathermap.org/img/wn/${imageId}@2x.png`)
+
+    //Display the input name
+    cityDisplayName.textContent = data.name + ' ,';
+    countryDisplayName.textContent = data.sys.country;
+    
+    //Display the temperature
+    mainTemperature.textContent = convertTemperature(data.main.temp).toFixed(2).toString() + ' °C';
+
+    //Display the minimum and maximum temperature
+    maxTemperature.textContent = convertTemperature(data.main.temp_max).toFixed(2).toString() + ' °C';
+    minTemperature.textContent = convertTemperature(data.main.temp_min).toFixed(2).toString() + ' °C';
+
+    //Other information display
+    description.textContent = data.weather[0].description;
+    wind.textContent = data.wind.speed + ' m/s ' + data.wind.deg + degreesDirection(data.wind.deg);
+    cloudiness.textContent = cloudinessConversion(data.clouds.all);
+    pressure.textContent = data.main.pressure.toString() + ' hPa';
+    humidity.textContent = data.main.humidity.toString() + ' %';
+    sunriseTime.textContent = new Date(data.sys.sunrise * 1000).getHours() + ':' + new Date(data.sys.sunrise * 1000).getMinutes();
+    sunsetTime.textContent = new Date(data.sys.sunset * 1000).getHours() + ':' + new Date(data.sys.sunset * 1000).getMinutes();
+  })
+  .catch(error => console.log(error));
+}
+
 changeTime();
 doesNameExists();
 doesMessageExists();
@@ -398,4 +508,9 @@ weatherLogo.addEventListener('click', () => {
 //Close navigation bar
 weatherClose.addEventListener('click', () => {
   weatherNavbar.style.top = '-180px';
+});
+
+//Submit location to see weather
+submitPlaces.addEventListener('click', e => {
+  getWeatherData(cityInput, countryInput);
 });
