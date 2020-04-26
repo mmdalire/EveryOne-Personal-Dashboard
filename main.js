@@ -29,6 +29,10 @@ const mainTemp = document.querySelector('.weather-current-temperature');
 const minTemp = document.querySelector('.weather-low-temperature');
 const maxTemp = document.querySelector('.weather-high-temperature');
 
+//Error handling
+const mainErrorBlock = document.querySelector('.modal-container');
+const exitModal = document.querySelector('#ok');
+
 //Parse zero whenever the time is in one digit (except hours)
 const parseZero = time => time < 10 ? "0" + time : time;
 
@@ -328,22 +332,6 @@ const updateToDo = () => {
   }
 }
 
-//Validate the weather inputs
-const validationWeatherInfo = country => {
-  let hasErrors = false;
-
-  //If country value is empty
-  if(country.value === undefined || country.value === '') {
-    hasErrors = true;
-    document.querySelector('#country-location').style.border = 'solid 2px red';
-  }
-  else {
-    document.querySelector('#country-location').style.border = 'none';
-  }
-
-  return hasErrors;
-}
-
 //Convert temperature from Kelvin to Celsius and Fahrenheit
 const convertTemperature = (temperature, degree) => {
   if(degree === 'kelvin-to-celsius') return (temperature - 273.15).toFixed(2).toString() + ' °C';
@@ -399,16 +387,48 @@ const changeWeatherBackground = (weather, time) => {
   }   
 }
 
-//Process and display the weather information
-const getWeatherData = (city, country) => {
-  if(validationWeatherInfo(country)) return;
+//Success when the user activates the geolocation alert to gather device's location
+const success = pos => getWeatherData('', '', pos.coords.latitude, pos.coords.longitude);
 
+//Get the device location
+const getLocation = () => {
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(success);
+  }
+}
+
+//Get the code for errors 
+const displayErrors = (code, message) => {
+  const errorTitle = document.querySelector('.modal-header');
+  const errorContent = document.querySelector('.modal-content p');
+  let hasErrors = false; 
+
+  if(code === '404') {
+    errorTitle.textContent = 'Error 404';
+    errorContent.textContent = message;
+    hasErrors = true;
+  }
+
+  return true;
+}
+
+//Process and display the weather information
+const getWeatherData = (city, country, latitude, longitude) => {
   //Declarations of some info for fetching data
+  //For city or country is present
   const weatherKey = keys.WEATHER_KEY; //API key
-  const apiUrl = 'api.openweathermap.org/data/2.5/weather?q=';
+  const apiUrl = 'api.openweathermap.org/data/2.5/weather?';
   const cityInput = city.value ? city.value + ',' : '';
-  const countryInput = country.value;
-  const api = `http://${apiUrl}${cityInput}${countryInput}&appid=${weatherKey}`;
+  const countryInput = country.value ? country.value : '';
+  let api;
+  //For latitude and longitude is present
+  if(city === '' && country === '') {
+    api = `http://${apiUrl}lat=${latitude}&lon=${longitude}&appid=${weatherKey}`;
+  }
+  else {
+    api = `http://${apiUrl}q=${cityInput}${countryInput}&appid=${weatherKey}`;
+  }
+
 
   //Fetching the data
   fetch(api)
@@ -470,6 +490,7 @@ doesNameExists();
 doesMessageExists();
 retrieveToDo();
 updateToDo();
+getLocation();
 
 //Toggle when the user wants 12 or 24 hour format
 displayTime.addEventListener('click', () => {
@@ -548,12 +569,12 @@ weatherClose.addEventListener('click', () => {
 
 //Submit location to see weather
 submitPlaces.addEventListener('click', e => {
-  getWeatherData(cityInput, countryInput);
+  getWeatherData(cityInput, countryInput, '', '');
 });
 
 //Convert Celsius to fahrenheit
 mainTemp.addEventListener('click', () => {
-  if(mainTemp.textContent === '--' || mainTemp.content === undefined) return; 
+  if(mainTemp.textContent === '--' || mainTemp.textContent === undefined) return;
 
   if(mainTemp.textContent[mainTemp.textContent.length - 1] === 'C') {
     mainTemp.textContent = convertTemperature(parseFloat(mainTemp.textContent), 'fahrenheit');
@@ -566,3 +587,8 @@ mainTemp.addEventListener('click', () => {
     maxTemp.textContent = convertTemperature(parseFloat(maxTemp.textContent), 'celsius');
   }
 });
+
+//Error handling
+exitModal.addEventListener('click', () => {
+  mainErrorBlock.style.display = 'none';
+})

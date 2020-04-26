@@ -15,6 +15,17 @@
 
 <body>
     <div class="container">
+        <div class="text-display">
+            <h2 id="time"></h2>
+            <h3>
+                <span id="greeting"></span>
+                <span id="greeting-person" contenteditable="true">[Enter name here]</span>
+            </h3>
+            <h3>
+                <span id="message">What is your main focus for today?</span>
+                <span id="message-content" contenteditable="true"></span>
+            </h3>
+        </div>
         <div class="todo-container">
             <div class="todo-icon-container">
                 <i class="fas fa-clipboard-list fa-3x" id="todo-icon"></i>
@@ -47,6 +58,15 @@
                 <i class="fas fa-cloud-sun-rain fa-3x" id="weather-icon"></i>
                 <div id="weather-text">Weather</div>
             </div>
+            <div class="modal-container">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        Error 404
+                    </div>
+                    <p></p>
+                    <button id="ok">OK</button>
+                </div>
+            </div>
             <div class="weather-list-container">
                 <i class="fas fa-times" id="todo-close"></i>
                 <div class="weather-information">
@@ -70,9 +90,7 @@
                                 <span id="city">--</span>
                                 <span id="country">--</span>
                             </div>
-                            <div class="weather-current-temperature">
-                                --
-                            </div>
+                            <div class="weather-current-temperature">--</div>
                             <span class="weather-high-temperature">--</span>
                             <span class="weather-low-temperature">--</span>
                         </div>
@@ -121,18 +139,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="text-display">
-        <h2 id="time"></h2>
-        <h3>
-            <span id="greeting"></span>
-            <span id="greeting-person" contenteditable="true">[Enter name here]</span>
-        </h3>
-        <h3>
-            <span id="message">What is your main focus for today?</span>
-            <span id="message-content" contenteditable="true"></span>
-        </h3>
-    </div>
     </div>
     <footer>
         <img src="images/js-logo.png" id="logo" alt="JS logo">
