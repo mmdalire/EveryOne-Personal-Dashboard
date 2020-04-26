@@ -276,6 +276,7 @@ input[type="submit"] {
 }
 
 #submit-location {
+  width: 78%;
   font-size: 17px;
   font-weight: bold;
   text-align: center;
@@ -337,6 +338,7 @@ input[type="submit"] {
   color: white;
   font-size: 50px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 #other-icon {

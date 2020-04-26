@@ -59,12 +59,11 @@
                             <i class="fas fa-map-marker-alt" id="location"></i>
                             <input type="text" id="city-input" placeholder="Enter city"><br>
                         </div>
-                        <div class="weather-location" id="submit-location">
+                        <button class="weather-location" id="submit-location">
                             Send location
-                        </div>
+                        </button>
                     </div>
                     <div class="weather-display">
-                        <!--<i class="wi wi-day-sunny" id="current-weather-icon"></i>-->
                         <img src="" id="current-weather" alt="Current weather icon">
                         <div class="weather-section" id="weather-width">
                             <div class="weather-display-location">
@@ -79,9 +78,14 @@
                         </div>
                         <div class="weather-section" id="weather-info-height">
                             <span id="weather-section-display">
+                                <i class="wi wi-small-craft-advisory" id="other-icon"></i> Main weather:
+                            </span>
+                            <span id="weather-main">--</span>
+
+                            <span id="weather-section-display">
                                 <i class="wi wi-small-craft-advisory" id="other-icon"></i> Description:
                             </span>
-                            <span id="wind-description">--</span><br>
+                            <span id="weather-description">--</span><br>
 
                             <span id="weather-section-display">
                                 <i class="wi wi-strong-wind" id="other-icon"></i> Wind:

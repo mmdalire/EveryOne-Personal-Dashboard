@@ -25,6 +25,10 @@ const countryInput = document.querySelector('#country-input');
 const cityInput = document.querySelector('#city-input');
 const submitPlaces = document.querySelector('#submit-location');
 
+const mainTemp = document.querySelector('.weather-current-temperature');
+const minTemp = document.querySelector('.weather-low-temperature');
+const maxTemp = document.querySelector('.weather-high-temperature');
+
 //Parse zero whenever the time is in one digit (except hours)
 const parseZero = time => time < 10 ? "0" + time : time;
 
@@ -320,12 +324,12 @@ const updateToDo = () => {
   const todoTime = document.querySelectorAll('#due-time');
 
   for(let i = 0; i < todoDate.length; i++) {
-    const todoDue = compareDates(todoDate[i], todoTime[i]);
+    compareDates(todoDate[i], todoTime[i]);
   }
 }
 
 //Validate the weather inputs
-const validationWeatherInfo = (city, country) => {
+const validationWeatherInfo = country => {
   let hasErrors = false;
 
   //If country value is empty
@@ -341,8 +345,10 @@ const validationWeatherInfo = (city, country) => {
 }
 
 //Convert temperature from Kelvin to Celsius and Fahrenheit
-const convertTemperature = temperature => {
-  return temperature - 273.15;
+const convertTemperature = (temperature, degree) => {
+  if(degree === 'kelvin-to-celsius') return (temperature - 273.15).toFixed(2).toString() + ' °C';
+  else if(degree === 'celsius') return ((temperature - 32) * (5/9)).toFixed(2).toString() + ' °C';
+  else if(degree === 'fahrenheit') return (temperature * (9/5) + 32).toFixed(2).toString() + ' °F';
 }
 
 //Convert degrees into readable direction 
@@ -368,9 +374,34 @@ const cloudinessConversion = (clouds) => {
   else return ' Cloudy ';
 }
 
+//Change background 
+const changeWeatherBackground = (weather, time) => {
+  const wallpaper = document.querySelector('body');
+
+  if(weather === 'Rain') {
+    if(time >= 7 && time < 19) {
+      wallpaper.style.background = 'url(images/rain-day.jpg)';
+      wallpaper.style.backgroundPosition = '0 -250px';
+      wallpaper.style.backgroundSize = 'cover';
+      wallpaper.style.backgroundRepeat = 'no-repeat';
+      wallpaper.style.transition = '1s all';
+    }
+    else {
+      wallpaper.style.background = 'url(images/rain-night.jpg)';
+      wallpaper.style.backgroundPosition = '0 -100px';
+      wallpaper.style.backgroundSize = 'cover';
+      wallpaper.style.backgroundRepeat = 'no-repeat';
+      wallpaper.style.transition = '1s all';
+    }
+  }   
+  else {
+    changeWallpaper(new Date().getHours());
+  }   
+}
+
 //Process and display the weather information
 const getWeatherData = (city, country) => {
-  if(validationWeatherInfo(city, country)) return;
+  if(validationWeatherInfo(country)) return;
 
   //Declarations of some info for fetching data
   const weatherKey = keys.WEATHER_KEY; //API key
@@ -395,7 +426,8 @@ const getWeatherData = (city, country) => {
     const maxTemperature = document.querySelector('.weather-high-temperature');
     const minTemperature = document.querySelector('.weather-low-temperature');
     //Other information
-    const description = document.querySelector('#wind-description');
+    const mainWeather = document.querySelector('#weather-main');
+    const description = document.querySelector('#weather-description');
     const wind = document.querySelector('#wind-information');
     const cloudiness = document.querySelector('#cloud-information');
     const pressure = document.querySelector('#pressure-information');
@@ -404,27 +436,31 @@ const getWeatherData = (city, country) => {
     const sunsetTime = document.querySelector('#sunset-information');
 
     //Set the image source
-    imageTemperature.setAttribute('src', `http://openweathermap.org/img/wn/${imageId}@2x.png`)
+    imageTemperature.setAttribute('src', `http://openweathermap.org/img/wn/${imageId}@2x.png`);
 
     //Display the input name
     cityDisplayName.textContent = data.name + ' ,';
     countryDisplayName.textContent = data.sys.country;
     
     //Display the temperature
-    mainTemperature.textContent = convertTemperature(data.main.temp).toFixed(2).toString() + ' °C';
+    mainTemperature.textContent = convertTemperature(data.main.temp, 'kelvin-to-celsius');
 
     //Display the minimum and maximum temperature
-    maxTemperature.textContent = convertTemperature(data.main.temp_max).toFixed(2).toString() + ' °C';
-    minTemperature.textContent = convertTemperature(data.main.temp_min).toFixed(2).toString() + ' °C';
+    maxTemperature.textContent = convertTemperature(data.main.temp_max, 'kelvin-to-celsius');
+    minTemperature.textContent = convertTemperature(data.main.temp_min, 'kelvin-to-celsius');
 
     //Other information display
+    mainWeather.textContent = data.weather[0].main;
     description.textContent = data.weather[0].description;
     wind.textContent = data.wind.speed + ' m/s ' + data.wind.deg + degreesDirection(data.wind.deg);
     cloudiness.textContent = cloudinessConversion(data.clouds.all);
     pressure.textContent = data.main.pressure.toString() + ' hPa';
     humidity.textContent = data.main.humidity.toString() + ' %';
-    sunriseTime.textContent = new Date(data.sys.sunrise * 1000).getHours() + ':' + new Date(data.sys.sunrise * 1000).getMinutes();
-    sunsetTime.textContent = new Date(data.sys.sunset * 1000).getHours() + ':' + new Date(data.sys.sunset * 1000).getMinutes();
+    sunriseTime.textContent = new Date(data.sys.sunrise * 1000).getHours() + ':' + parseZero(new Date(data.sys.sunrise * 1000).getMinutes());
+    sunsetTime.textContent = new Date(data.sys.sunset * 1000).getHours() + ':' + parseZero(new Date(data.sys.sunset * 1000).getMinutes());
+
+    //Change background depending on the weather
+    changeWeatherBackground(data.weather[0].main, new Date(data.dt * 1000).getHours());
   })
   .catch(error => console.log(error));
 }
@@ -513,4 +549,20 @@ weatherClose.addEventListener('click', () => {
 //Submit location to see weather
 submitPlaces.addEventListener('click', e => {
   getWeatherData(cityInput, countryInput);
+});
+
+//Convert Celsius to fahrenheit
+mainTemp.addEventListener('click', () => {
+  if(mainTemp.textContent === '--' || mainTemp.content === undefined) return; 
+
+  if(mainTemp.textContent[mainTemp.textContent.length - 1] === 'C') {
+    mainTemp.textContent = convertTemperature(parseFloat(mainTemp.textContent), 'fahrenheit');
+    minTemp.textContent = convertTemperature(parseFloat(minTemp.textContent), 'fahrenheit');
+    maxTemp.textContent = convertTemperature(parseFloat(maxTemp.textContent), 'fahrenheit');
+  }
+  else {
+    mainTemp.textContent = convertTemperature(parseFloat(mainTemp.textContent), 'celsius');
+    minTemp.textContent = convertTemperature(parseFloat(minTemp.textContent), 'celsius');
+    maxTemp.textContent = convertTemperature(parseFloat(maxTemp.textContent), 'celsius');
+  }
 });
