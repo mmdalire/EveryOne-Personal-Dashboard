@@ -380,6 +380,8 @@ footer {
   backdrop-filter: blur(20px);
   height: 100vh;
   width: 100vw;
+  animation-name: open;
+  animation-duration: 0.5s;
 }
 
 .modal-content {
@@ -402,7 +404,6 @@ footer {
 }
 
 .modal-content p {
-  text-align: justify;
   margin-top: 10px;
   padding: 10px 0;
 }
@@ -415,4 +416,9 @@ footer {
   border: 3px solid red;
   border-radius: 10px;
   padding: 5px;
+}
+
+@keyframes open {
+  from{backdrop-filter: gray(0); height: 0}
+  to{backdrop-filter: gray(20px); height: 100vh}
 }

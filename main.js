@@ -292,10 +292,15 @@ const compareDates = (todoDate, todoTime) => {
 
 //Clear the input format
 const clearFormat = () => {
+  //To do
   document.querySelector('#name-of-todo').value = '';
   document.querySelector('#date-of-todo').value = '';
   document.querySelector('#time-of-todo').value = '';
   document.querySelector('#description-of-todo').value = '';
+
+  //Weather
+  document.querySelector('#country-input').value = '';
+  document.querySelector('#city-input').value = '';
 }
 
 //Saving the todo item to local storage
@@ -332,6 +337,57 @@ const updateToDo = () => {
   }
 }
 
+//Display weather data to weather navigation bar
+const displayWeather = data => {
+  //Image logo
+  const imageTemperature = document.querySelector('#current-weather');
+  const imageId = data.weather[0].icon;
+  //Naming display
+  const cityDisplayName = document.querySelector('#city');
+  const countryDisplayName = document.querySelector('#country');
+  //Main temperature
+  const mainTemperature = document.querySelector('.weather-current-temperature');
+  //Minimum and maximum temperature
+  const maxTemperature = document.querySelector('.weather-high-temperature');
+  const minTemperature = document.querySelector('.weather-low-temperature');
+  //Other information
+  const mainWeather = document.querySelector('#weather-main');
+  const description = document.querySelector('#weather-description');
+  const wind = document.querySelector('#wind-information');
+  const cloudiness = document.querySelector('#cloud-information');
+  const pressure = document.querySelector('#pressure-information');
+  const humidity = document.querySelector('#humidity-information');
+  const sunriseTime = document.querySelector('#sunrise-information');
+  const sunsetTime = document.querySelector('#sunset-information');
+
+  //Set the image source
+  imageTemperature.setAttribute('src', `http://openweathermap.org/img/wn/${imageId}@2x.png`);
+
+  //Display the input name
+  cityDisplayName.textContent = data.name + ' ,';
+  countryDisplayName.textContent = data.sys.country;
+  
+  //Display the temperature
+  mainTemperature.textContent = convertTemperature(data.main.temp, 'kelvin-to-celsius');
+
+  //Display the minimum and maximum temperature
+  maxTemperature.textContent = convertTemperature(data.main.temp_max, 'kelvin-to-celsius');
+  minTemperature.textContent = convertTemperature(data.main.temp_min, 'kelvin-to-celsius');
+
+  //Other information display
+  mainWeather.textContent = data.weather[0].main;
+  description.textContent = data.weather[0].description;
+  wind.textContent = data.wind.speed + ' m/s ' +  data.wind.deg + degreesDirection(data.wind.deg);
+  cloudiness.textContent = cloudinessConversion(data.clouds.all);
+  pressure.textContent = data.main.pressure.toString() + ' hPa';
+  humidity.textContent = data.main.humidity.toString() + ' %';
+  sunriseTime.textContent = new Date(data.sys.sunrise * 1000).getHours() + ':' + parseZero(new Date(data.sys.sunrise * 1000).getMinutes());
+  sunsetTime.textContent = new Date(data.sys.sunset * 1000).getHours() + ':' + parseZero(new Date(data.sys.sunset * 1000).getMinutes());
+
+  //Change background depending on the weather
+  changeWeatherBackground(data.weather[0].main, new Date(data.dt * 1000).getHours());
+}
+
 //Convert temperature from Kelvin to Celsius and Fahrenheit
 const convertTemperature = (temperature, degree) => {
   if(degree === 'kelvin-to-celsius') return (temperature - 273.15).toFixed(2).toString() + ' °C';
@@ -341,6 +397,8 @@ const convertTemperature = (temperature, degree) => {
 
 //Convert degrees into readable direction 
 const degreesDirection = degrees => {
+  if(degrees === undefined) return '';
+
   if(degrees > 0 && degrees <= 33.75) return ' ( North )';
   else if(degrees > 33.75 && degrees <= 78.75) return ' ( North East )';
   else if(degrees > 78.75 && degrees <= 123.75) return ' ( East )';
@@ -397,19 +455,32 @@ const getLocation = () => {
   }
 }
 
-//Get the code for errors 
-const displayErrors = (code, message) => {
+//Detect any errors while fetching data
+const checkFetch = response => {
+  if(!response.ok) throw response.status;
+  return response;
+}
+
+//Display errors
+const displayError = errorCode => {
+  const error = document.querySelector('.modal-container');
   const errorTitle = document.querySelector('.modal-header');
-  const errorContent = document.querySelector('.modal-content p');
-  let hasErrors = false; 
+  const errorBody = document.querySelector('.modal-content p');
+  error.style.display = 'block';
+  weatherNavbar.style.top = '-180px';
 
-  if(code === '404') {
-    errorTitle.textContent = 'Error 404';
-    errorContent.textContent = message;
-    hasErrors = true;
+  if(errorCode === 400) {
+    errorTitle.textContent = `Error ${errorCode}`;
+    errorBody.textContent = 'You\'ve sent a bad request. You must have sent an empty input.';
   }
-
-  return true;
+  else if(errorCode === 401) {
+    errorTitle.textContent = `Error ${errorCode}`;
+    errorBody.textContent = 'Unauthorized access to weather navigation bar. Place an API key to access weather data.';
+  }
+  else if(errorCode === 404) {
+    errorTitle.textContent = `Error ${errorCode}`;
+    errorBody.textContent = 'Location not found.';
+  }
 }
 
 //Process and display the weather information
@@ -429,60 +500,12 @@ const getWeatherData = (city, country, latitude, longitude) => {
     api = `http://${apiUrl}q=${cityInput}${countryInput}&appid=${weatherKey}`;
   }
 
-
   //Fetching the data
-  fetch(api)
+  fetch(api) 
+  .then(checkFetch) //Check for fetching errors
   .then(response => response.json()) //Get the body of data
-  .then(data => {
-    //Image logo
-    const imageTemperature = document.querySelector('#current-weather');
-    const imageId = data.weather[0].icon;
-    //Naming display
-    const cityDisplayName = document.querySelector('#city');
-    const countryDisplayName = document.querySelector('#country');
-    //Main temperature
-    const mainTemperature = document.querySelector('.weather-current-temperature');
-    //Minimum and maximum temperature
-    const maxTemperature = document.querySelector('.weather-high-temperature');
-    const minTemperature = document.querySelector('.weather-low-temperature');
-    //Other information
-    const mainWeather = document.querySelector('#weather-main');
-    const description = document.querySelector('#weather-description');
-    const wind = document.querySelector('#wind-information');
-    const cloudiness = document.querySelector('#cloud-information');
-    const pressure = document.querySelector('#pressure-information');
-    const humidity = document.querySelector('#humidity-information');
-    const sunriseTime = document.querySelector('#sunrise-information');
-    const sunsetTime = document.querySelector('#sunset-information');
-
-    //Set the image source
-    imageTemperature.setAttribute('src', `http://openweathermap.org/img/wn/${imageId}@2x.png`);
-
-    //Display the input name
-    cityDisplayName.textContent = data.name + ' ,';
-    countryDisplayName.textContent = data.sys.country;
-    
-    //Display the temperature
-    mainTemperature.textContent = convertTemperature(data.main.temp, 'kelvin-to-celsius');
-
-    //Display the minimum and maximum temperature
-    maxTemperature.textContent = convertTemperature(data.main.temp_max, 'kelvin-to-celsius');
-    minTemperature.textContent = convertTemperature(data.main.temp_min, 'kelvin-to-celsius');
-
-    //Other information display
-    mainWeather.textContent = data.weather[0].main;
-    description.textContent = data.weather[0].description;
-    wind.textContent = data.wind.speed + ' m/s ' + data.wind.deg + degreesDirection(data.wind.deg);
-    cloudiness.textContent = cloudinessConversion(data.clouds.all);
-    pressure.textContent = data.main.pressure.toString() + ' hPa';
-    humidity.textContent = data.main.humidity.toString() + ' %';
-    sunriseTime.textContent = new Date(data.sys.sunrise * 1000).getHours() + ':' + parseZero(new Date(data.sys.sunrise * 1000).getMinutes());
-    sunsetTime.textContent = new Date(data.sys.sunset * 1000).getHours() + ':' + parseZero(new Date(data.sys.sunset * 1000).getMinutes());
-
-    //Change background depending on the weather
-    changeWeatherBackground(data.weather[0].main, new Date(data.dt * 1000).getHours());
-  })
-  .catch(error => console.log(error));
+  .then(displayWeather) //Display the weather
+  .catch(displayError); //Display errors
 }
 
 changeTime();
@@ -570,6 +593,7 @@ weatherClose.addEventListener('click', () => {
 //Submit location to see weather
 submitPlaces.addEventListener('click', e => {
   getWeatherData(cityInput, countryInput, '', '');
+  clearFormat();
 });
 
 //Convert Celsius to fahrenheit
