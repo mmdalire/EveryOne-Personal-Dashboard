@@ -15,6 +15,17 @@
 
 <body>
     <div class="container">
+        <div class="widget-items">
+            <div class="widget-icon" id="news-logo">
+                <i class="far fa-newspaper fa-3x"></i>
+            </div>
+            <div class="widget-icon" id="weather-icon">
+                <i class="fas fa-cloud-sun-rain fa-3x"></i>
+            </div>
+            <div class="widget-icon" id="todo-icon">
+                <i class="fas fa-clipboard-list fa-3x"></i>
+            </div>
+        </div>
         <div class="text-display">
             <h2 id="time"></h2>
             <h3>
@@ -27,12 +38,8 @@
             </h3>
         </div>
         <div class="todo-container">
-            <div class="todo-icon-container">
-                <i class="fas fa-clipboard-list fa-3x" id="todo-icon"></i>
-                <div id="todo-text">To do</div>
-            </div>
             <div class="todo-list-container">
-                <i class="fas fa-times" id="todo-close"></i>
+                <i class="fas fa-times" id="close"></i>
                 <button id="add-todo">+ Add todo</button>
                 <div class="add-todo-lists">
                     <label for="name-of-todo">Name: </label><br>
@@ -54,10 +61,6 @@
             </div>
         </div>
         <div class="weather-container">
-            <div class="weather-icon-container">
-                <i class="fas fa-cloud-sun-rain fa-3x" id="weather-icon"></i>
-                <div id="weather-text">Weather</div>
-            </div>
             <div class="modal-container">
                 <div class="modal-content">
                     <div class="modal-header"></div>
@@ -66,7 +69,7 @@
                 </div>
             </div>
             <div class="weather-list-container">
-                <i class="fas fa-times" id="todo-close"></i>
+                <i class="fas fa-times" id="close"></i>
                 <div class="weather-information">
                     <div class="search-location">
                         <div class="weather-location" id="country-location">
@@ -133,6 +136,110 @@
                             </span>
                             <span id="sunset-information">--:--</span><br>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="news-container">
+            <div class="modal-container">
+                <div class="modal-content">
+                    <div class="modal-header"></div>
+                    <p></p>
+                    <button id="ok">OK</button>
+                </div>
+            </div>
+            <div class="news-list-container">
+                <i class="fas fa-times" id="close"></i>
+                <div class="news-list-switch">
+                    <span id="current-news">Current news</span>
+                    <span id="saved-news">Saved news</span>
+                </div>
+                <div class="current-news">
+                    <div class="search-news">
+                        <i class="fas fa-search" id="search"></i>
+                        <input type="text" placeholder="Search using keywords" id="input-keywords">
+                    </div>
+                    <div class="news-buttons">
+                        <button id="search-news">Search</button>
+                        <button id="advanced-search">Advanced search</button>
+                    </div>
+                    <div class="advanced-search-section">
+                        <label for="author">Author</label>
+                        <input type="text" id="author" placeholder="Optional"><br>
+
+                        <label for="sources">Source domain</label>
+                        <input type="text" id="domain" placeholder="Optional"><br>
+
+                        <label for="category">Catergory</label><br>
+                        <select name="category" id="category">
+                            <option value="none">--Choose category--</option>
+                            <option value="business">Business</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="general">General</option>
+                            <option value="health">Health</option>
+                            <option value="science">Science</option>
+                            <option value="sports">Sports</option>
+                            <option value="technology">Technology</option>
+                        </select><br>
+
+                        <label for="news-country">Country</label><br>
+                        <select name="news-country" id="news-country">
+                            <option value="ae">United Arab Emirates</option>
+                            <option value="ar">Argentina</option>
+                            <option value="at">Austria</option>
+                            <option value="au">Australia</option>
+                            <option value="be">Belgium</option>
+                            <option value="bg">Bulgaria</option>
+                            <option value="br">Brazil</option>
+                            <option value="ca">Canada</option>
+                            <option value="ch">Switzerland</option>
+                            <option value="cn">China</option>
+                            <option value="co">Colombia</option>
+                            <option value="cu">Cuba</option>
+                            <option value="cz">Czech Republic</option>
+                            <option value="eg">Egypt</option>
+                            <option value="fr">France</option>
+                            <option value="de">Germany</option>
+                            <option value="gb">United Kingdom</option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                        <button>Search</button>
                     </div>
                 </div>
             </div>

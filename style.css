@@ -60,6 +60,33 @@ input[type="submit"] {
   position: relative;
 }
 
+/*Widget items*/
+.widget-items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 50px auto;
+  width: 300px;
+  height: 80px;
+  backdrop-filter: blur(20px);
+  border: solid 5px white;
+  border-radius: 10px;
+  opacity: 0.9;
+}
+
+.widget-icon {
+  font-size: 20px;
+  overflow: hidden;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  cursor: pointer;
+  transition: 0.5s background-color;
+}
+
+.widget-icon:hover {
+  background-color: rgb(236, 182, 2);
+}
+
 /*Time, greeting, and message section*/
 .text-display {
   color: white;
@@ -98,31 +125,8 @@ input[type="submit"] {
   position: relative;
 }
 
-.todo-icon-container {
-  color: white;
-  border: solid 0px white;
-  position: absolute;
-  right: 0;
-  padding: 10px;
-  margin: 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.5s all;
-}
-
-.todo-icon-container:hover {
-  border: solid 3px white;
-  border-radius: 10px;
-}
-
-#todo-text {
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
 /*To do navigation pane*/
-#todo-close {
+#close {
   width: 90%;
   margin-top: 5px;
   font-size: 30px;
@@ -132,6 +136,7 @@ input[type="submit"] {
 }
 
 .todo-list-container {
+  top: 0;
   text-align: center;
   height: 100vh;
   backdrop-filter: blur(20px);
@@ -142,8 +147,8 @@ input[type="submit"] {
   width: 300px;
 }
 
-.todo-list-container #todo-close {
-  width: 90%;
+.todo-list-container #close {
+  width: 98%;
 }
 
 #add-todo {
@@ -211,38 +216,11 @@ input[type="submit"] {
 }
 
 /*Weather part*/
-.weather-icon-container {
-  color: white;
-  border: solid 0px white;
-  position: absolute;
-  right: 44%;
-  padding: 10px;
-  margin: 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.5s all;
-}
-
-.weather-icon-container:hover {
-  border: solid 3px white;
-  border-radius: 10px;
-}
-
-#weather-icon {
-  font-size: 55px;
-}
-
 #current-weather {
   width: 200px;
   margin-top: -40px;
   image-rendering: pixelated;
   height: 200px;
-}
-
-#weather-text {
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-top: 7px;
 }
 
 .weather-list-container {
@@ -254,7 +232,7 @@ input[type="submit"] {
   transition: 0.5s all;
 }
 
-.weather-list-container #todo-close {
+.weather-list-container #close {
   width: 98%;
 }
 
@@ -355,6 +333,83 @@ input[type="submit"] {
   border-radius: 5px;
 }
 
+/*News section*/
+.news-list-container {
+  position: absolute;
+  top: 0;
+  left: -300px;
+  height: 100vh;
+  width: 300px;
+  backdrop-filter: blur(20px);
+  transition: 0.5s all;
+}
+
+.news-list-container #close {
+  width: 98%;
+}
+
+.news-list-switch {
+  display: flex;
+  color: white;
+  border-radius: 10px;
+  width: 230px;
+  height: 40px;
+  margin: 10px auto;
+}
+
+.news-list-switch span {
+  width: 50%;
+  text-align: center;
+  padding-top: 9px;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+.news-list-switch span:first-child {
+  border-radius: 10px 0 0 10px;
+  border-right: 2px;
+  background-color: white;
+  color: rgb(58, 58, 58);
+}
+
+.news-list-switch span:nth-child(2) {
+  border-radius: 0 10px 10px 0;
+}
+
+#search {
+  margin: 0 0 -3px 10px;
+}
+
+.search-news {
+  background-color: white;
+  width: 250px;
+  margin: 20px auto;
+  padding: 5px;
+  border-radius: 20px;
+}
+
+.news-buttons {
+  margin-top: -5px;
+  width: 100%;
+  text-align: center;
+}
+
+.news-buttons button {
+  height: 30px;
+  width: 43%;
+  background-color: white;
+  color: black;
+  padding: 5px;
+  border: 2px white solid;
+  border-radius: 5px;
+}
+
+.advanced-search-section {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: rgb(255, 255, 255, 0.5);
+}
+
 /*Footer*/
 footer {
   padding: 10px;
@@ -375,8 +430,9 @@ footer {
 
 /*Error handling*/
 .modal-container {
+  position: absolute;
+  top: 0;
   display: none;
-  position: fixed;
   backdrop-filter: blur(20px);
   height: 100vh;
   width: 100vw;

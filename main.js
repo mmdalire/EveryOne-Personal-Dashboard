@@ -7,8 +7,8 @@ const greetingPerson = document.querySelector('#greeting-person');
 const messageContent = document.querySelector('#message-content');
 
 //To do variables
-const todoLogo = document.querySelector('.todo-icon-container');
-const todoClose = document.querySelector('#todo-close');
+const todoLogo = document.querySelector('#todo-icon');
+const todoClose = document.querySelector('.todo-list-container #close');
 const todoNavbar = document.querySelector('.todo-list-container');
 //Add to do variables
 const addToListButton = document.querySelector('#add-todo');
@@ -17,8 +17,8 @@ const addToDoList = document.querySelector('.add-todo-lists');
 const createToDo = document.querySelector('#create-todo');
 
 //Weather variables
-const weatherLogo = document.querySelector('.weather-icon-container');
-const weatherClose = document.querySelector('.weather-list-container #todo-close');
+const weatherLogo = document.querySelector('#weather-icon');
+const weatherClose = document.querySelector('.weather-list-container #close');
 const weatherNavbar = document.querySelector('.weather-list-container');
 
 const countryInput = document.querySelector('#country-input');
@@ -28,6 +28,11 @@ const submitPlaces = document.querySelector('#submit-location');
 const mainTemp = document.querySelector('.weather-current-temperature');
 const minTemp = document.querySelector('.weather-low-temperature');
 const maxTemp = document.querySelector('.weather-high-temperature');
+
+//News variables
+const newsLogo = document.querySelector('#news-logo');
+const newsClose = document.querySelector('.news-list-container #close');
+const newsNavbar = document.querySelector('.news-list-container');
 
 //Error handling
 const mainErrorBlock = document.querySelector('.modal-container');
@@ -611,6 +616,15 @@ mainTemp.addEventListener('click', () => {
     maxTemp.textContent = convertTemperature(parseFloat(maxTemp.textContent), 'celsius');
   }
 });
+
+//News section
+newsLogo.addEventListener('click', () => {
+  newsNavbar.style.left =  '0';
+})
+
+newsClose.addEventListener('click', () => {
+  newsNavbar.style.left = '-300px';
+})
 
 //Error handling
 exitModal.addEventListener('click', () => {
