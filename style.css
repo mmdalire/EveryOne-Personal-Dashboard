@@ -34,7 +34,13 @@ input[type="submit"] {
   padding: 3px;
   width: 84%;
   font-size: 16px;
-  cursor: pointer;
+}
+
+select {
+  width: 85%;
+  height: 20px;
+  border-radius: 5px;
+  border: 1px solid white;
 }
 
 /*Scrollbar*/
@@ -348,34 +354,6 @@ input[type="submit"] {
   width: 98%;
 }
 
-.news-list-switch {
-  display: flex;
-  color: white;
-  border-radius: 10px;
-  width: 230px;
-  height: 40px;
-  margin: 10px auto;
-}
-
-.news-list-switch span {
-  width: 50%;
-  text-align: center;
-  padding-top: 9px;
-  border: 2px solid white;
-  cursor: pointer;
-}
-
-.news-list-switch span:first-child {
-  border-radius: 10px 0 0 10px;
-  border-right: 2px;
-  background-color: white;
-  color: rgb(58, 58, 58);
-}
-
-.news-list-switch span:nth-child(2) {
-  border-radius: 0 10px 10px 0;
-}
-
 #search {
   margin: 0 0 -3px 10px;
 }
@@ -383,7 +361,7 @@ input[type="submit"] {
 .search-news {
   background-color: white;
   width: 250px;
-  margin: 20px auto;
+  margin: 5px auto 20px auto;
   padding: 5px;
   border-radius: 20px;
 }
@@ -405,11 +383,69 @@ input[type="submit"] {
 }
 
 .advanced-search-section {
+  display: none;
+  color: white;
   margin: 20px 0;
-  padding: 20px;
+  padding: 20px 0 20px 20px;
   background-color: rgb(255, 255, 255, 0.5);
 }
 
+.headline-section {
+  overflow: auto;
+  margin: 10px 0;
+  padding: 0 20px;
+}
+
+.news-item {
+  margin: 10px 0;
+  background-color: white;
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.29);
+}
+
+.news-thumbnail {
+  width: 100%;
+}
+
+.news-content {
+  padding: 10px;
+}
+
+#news-date-published {
+  margin-top: -5px;
+  color: gray;
+}
+
+#news-headline {
+  margin: 3px 0 -1px 0;
+}
+
+.click-more,
+.click-full-news {
+  margin: 10px 0 0 0;
+  border-top: 2px solid black;
+  padding-top: 10px;
+  display: flex;
+  cursor: pointer;
+}
+
+#click-arrow {
+  margin: 0 10px;
+}
+
+.click-more p {
+  font-size: 15px;
+}
+
+.news-description {
+  display: none;
+  margin: 10px 0;
+  text-align: justify;
+}
+
+.news-sources {
+  margin: 15px 0;
+  font-style: italic;
+}
 /*Footer*/
 footer {
   padding: 10px;

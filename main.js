@@ -33,6 +33,12 @@ const maxTemp = document.querySelector('.weather-high-temperature');
 const newsLogo = document.querySelector('#news-logo');
 const newsClose = document.querySelector('.news-list-container #close');
 const newsNavbar = document.querySelector('.news-list-container');
+//Advanced search
+const advancedSearchButton = document.querySelector('#advanced-search-btn');
+const advancedSearchSection = document.querySelector('.advanced-search-section');
+//News headline
+const newsShowDescription = document.querySelector('.click-more');
+const newsDescription = document.querySelector('.news-description');
 
 //Error handling
 const mainErrorBlock = document.querySelector('.modal-container');
@@ -570,10 +576,12 @@ todoClose.addEventListener('click', () => {
 //Add to do button
 addToListButton.addEventListener('click', () => {
   if(addToDoList.style.display === 'none'){
+    addToListButton.style.backgroundColor = 'rgb(236, 182, 2)';
     addToListButton.textContent = 'Close';
     addToDoList.style.display = 'block';
   }
   else {
+    addToListButton.style.backgroundColor = 'transparent';
     addToListButton.textContent = '+ Add todo';
     addToDoList.style.display = 'none';
   }
@@ -620,13 +628,32 @@ mainTemp.addEventListener('click', () => {
 //News section
 newsLogo.addEventListener('click', () => {
   newsNavbar.style.left =  '0';
-})
+});
 
 newsClose.addEventListener('click', () => {
   newsNavbar.style.left = '-300px';
+});
+
+advancedSearchButton.addEventListener('click', () => {
+  if(advancedSearchSection.style.display === 'none') {
+    advancedSearchButton.style.backgroundColor = 'rgb(236, 182, 2)';
+    advancedSearchButton.textContent = 'Close search';
+    advancedSearchSection.style.display = 'block';
+  }
+  else {
+    advancedSearchButton.style.backgroundColor = 'white';
+    advancedSearchButton.textContent = 'Advanced search';
+    advancedSearchSection.style.display = 'none';
+  }
+});
+
+//View full description
+newsShowDescription.addEventListener('click', () => {
+  newsShowDescription.style.display = 'none';
+  newsDescription.style.display = 'block';
 })
 
 //Error handling
 exitModal.addEventListener('click', () => {
   mainErrorBlock.style.display = 'none';
-})
+});

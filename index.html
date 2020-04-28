@@ -56,7 +56,6 @@
 
                     <input type="submit" value="Add todo" id="create-todo">
                 </div>
-
                 <div class="todo-lists"></div>
             </div>
         </div>
@@ -150,96 +149,116 @@
             </div>
             <div class="news-list-container">
                 <i class="fas fa-times" id="close"></i>
-                <div class="news-list-switch">
-                    <span id="current-news">Current news</span>
-                    <span id="saved-news">Saved news</span>
+                <div class="search-news">
+                    <i class="fas fa-search" id="search"></i>
+                    <input type="text" placeholder="Search using keywords" id="input-keywords">
                 </div>
-                <div class="current-news">
-                    <div class="search-news">
-                        <i class="fas fa-search" id="search"></i>
-                        <input type="text" placeholder="Search using keywords" id="input-keywords">
-                    </div>
-                    <div class="news-buttons">
-                        <button id="search-news">Search</button>
-                        <button id="advanced-search">Advanced search</button>
-                    </div>
-                    <div class="advanced-search-section">
-                        <label for="author">Author</label>
-                        <input type="text" id="author" placeholder="Optional"><br>
+                <div class="news-buttons">
+                    <button id="search-news">Search</button>
+                    <button id="advanced-search-btn">Advanced search</button>
+                </div>
+                <div class="advanced-search-section">
+                    <label for="author">Author:</label>
+                    <input type="text" id="author" placeholder="Optional"><br>
 
-                        <label for="sources">Source domain</label>
-                        <input type="text" id="domain" placeholder="Optional"><br>
+                    <label for="sources">Source domain:</label>
+                    <input type="text" id="domain" placeholder="Optional"><br>
 
-                        <label for="category">Catergory</label><br>
-                        <select name="category" id="category">
-                            <option value="none">--Choose category--</option>
-                            <option value="business">Business</option>
-                            <option value="entertainment">Entertainment</option>
-                            <option value="general">General</option>
-                            <option value="health">Health</option>
-                            <option value="science">Science</option>
-                            <option value="sports">Sports</option>
-                            <option value="technology">Technology</option>
-                        </select><br>
+                    <label for="category">Catergory:</label><br>
+                    <select name="category" id="category">
+                        <option value="none">--Choose category--</option>
+                        <option value="business">Business</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="general">General</option>
+                        <option value="health">Health</option>
+                        <option value="science">Science</option>
+                        <option value="sports">Sports</option>
+                        <option value="technology">Technology</option>
+                    </select><br>
 
-                        <label for="news-country">Country</label><br>
-                        <select name="news-country" id="news-country">
-                            <option value="ae">United Arab Emirates</option>
-                            <option value="ar">Argentina</option>
-                            <option value="at">Austria</option>
-                            <option value="au">Australia</option>
-                            <option value="be">Belgium</option>
-                            <option value="bg">Bulgaria</option>
-                            <option value="br">Brazil</option>
-                            <option value="ca">Canada</option>
-                            <option value="ch">Switzerland</option>
-                            <option value="cn">China</option>
-                            <option value="co">Colombia</option>
-                            <option value="cu">Cuba</option>
-                            <option value="cz">Czech Republic</option>
-                            <option value="eg">Egypt</option>
-                            <option value="fr">France</option>
-                            <option value="de">Germany</option>
-                            <option value="gb">United Kingdom</option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                        </select>
-                        <button>Search</button>
+                    <label for="news-country">Country:</label><br>
+                    <select name="news-country" id="news-country">
+                        <option value="none">--Choose country--</option>
+                        <option value="ar">Argentina</option>
+                        <option value="at">Austria</option>
+                        <option value="au">Australia</option>
+                        <option value="be">Belgium</option>
+                        <option value="bg">Bulgaria</option>
+                        <option value="br">Brazil</option>
+                        <option value="ca">Canada</option>
+                        <option value="cn">China</option>
+                        <option value="co">Colombia</option>
+                        <option value="cu">Cuba</option>
+                        <option value="cz">Czech Republic</option>
+                        <option value="eg">Egypt</option>
+                        <option value="fr">France</option>
+                        <option value="de">Germany</option>
+                        <option value="gr">Greece</option>
+                        <option value="hk">Hong Kong</option>
+                        <option value="hu">Hungary</option>
+                        <option value="id">Indonesia</option>
+                        <option value="ie">Ireland</option>
+                        <option value="is">Israel</option>
+                        <option value="in">India</option>
+                        <option value="it">Italy</option>
+                        <option value="jp">Japan</option>
+                        <option value="lt">Lithuania</option>
+                        <option value="lv">Latvia</option>
+                        <option value="ma">Morocco</option>
+                        <option value="mx">Mexico</option>
+                        <option value="my">Malaysia</option>
+                        <option value="ng">Nigeria</option>
+                        <option value="nl">Netherlands</option>
+                        <option value="no">Norway</option>
+                        <option value="nz">New Zealand</option>
+                        <option value="ph">Philippines</option>
+                        <option value="pl">Poland</option>
+                        <option value="pt">Portugal</option>
+                        <option value="ro">Romania</option>
+                        <option value="ru">Russian</option>
+                        <option value="rs">Serbia</option>
+                        <option value="sa">Saudi Arabia</option>
+                        <option value="sg">Singapore</option>
+                        <option value="si">Slovenia</option>
+                        <option value="sk">Slovakia</option>
+                        <option value="za">South Africa</option>
+                        <option value="kr">South Korea</option>
+                        <option value="se">Sweden</option>
+                        <option value="ch">Switzerland</option>
+                        <option value="th">Thailand</option>
+                        <option value="tr">Turkey</option>
+                        <option value="tw">Taiwan</option>
+                        <option value="ua">Ukraine</option>
+                        <option value="ae">United Arab Emirates</option>
+                        <option value="gb">United Kingdom</option>
+                        <option value="us">United States</option>
+                        <option value="ve">Venezuela</option>
+                    </select><br>
+
+                    <input type="submit" value="Search" id="advanced-search">
+                </div>
+                <div class="headline-section">
+                    <div class="news-item">
+                        <img src="https://ichef.bbci.co.uk/news/1024/branded_news/44A1/production/_111996571_gettyimages-1201880491.jpg"
+                            class=" news-thumbnail" alt="News image">
+                        <div class="news-content">
+                            <h5 id="news-date-published">April 28, 2020</h5>
+                            <h3 id="news-headline">Some headline</h3>
+                            <h5 id="news-author">CNN</h5>
+                            <div class="click-more">
+                                <i class="fas fa-chevron-down" id="click-arrow"></i>
+                                <p>Click here to view description</p>
+                            </div>
+                            <div class="news-description">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque ullam consequatur,
+                                    odit praesentium cum itaque autem aut nihil adipisci ipsa.</p>
+                                <div class="news-sources">Source by: CNN</div>
+                                <div class="click-full-news">
+                                    <i class="fas fa-chevron-right" id="click-arrow"></i>
+                                    <p>Click here to find out more</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
