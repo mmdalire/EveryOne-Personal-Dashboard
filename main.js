@@ -37,8 +37,7 @@ const newsNavbar = document.querySelector('.news-list-container');
 const advancedSearchButton = document.querySelector('#advanced-search-btn');
 const advancedSearchSection = document.querySelector('.advanced-search-section');
 //News headline
-const newsShowDescription = document.querySelector('.click-more');
-const newsDescription = document.querySelector('.news-description');
+const newsContainer = document.querySelector('.headline-section');
 
 //Error handling
 const mainErrorBlock = document.querySelector('.modal-container');
@@ -519,12 +518,104 @@ const getWeatherData = (city, country, latitude, longitude) => {
   .catch(displayError); //Display errors
 }
 
+//Process and display the news
+const createNewsItem = data => {
+  for(let i = 0; i < data.articles.length; i++) {
+    const newsItem = document.createElement('div');
+    const newsThumbnail = document.createElement('img');
+    const newsContent = document.createElement('div');
+    const newsDate = document.createElement('h5');
+    const newsHeadline = document.createElement('h3');
+    const newsAuthor = document.createElement('h5');
+    const newsClickMore = document.createElement('div');
+    const newsClickMoreDescription = document.createElement('p');
+    const newsArrowDown = document.createElement('i');
+    const newsDescriptionContainer = document.createElement('div');
+    const newsDescription = document.createElement('p');
+    const newsSources = document.createElement('div');
+    const newsFullNews = document.createElement('a');
+    const newsFullNewsDescription = document.createElement('p');
+    const newsArrowRight = document.createElement('i');
+
+    newsItem.setAttribute('class', 'news-item');
+    newsThumbnail.setAttribute('class', 'news-thumbnail');
+    newsThumbnail.setAttribute('alt', 'News image');
+    newsContent.setAttribute('class', 'news-content');
+    newsDate.setAttribute('id', 'news-date-published');
+    newsHeadline.setAttribute('id', 'news-headline');
+    newsAuthor.setAttribute('id', 'news-author');
+    newsClickMore.setAttribute('class', 'click-more');
+    newsArrowDown.setAttribute('class', 'fas fa-chevron-down');
+    newsArrowDown.setAttribute('id', 'click-arrow');
+    newsDescriptionContainer.setAttribute('class', 'news-description-container');
+    newsDescription.setAttribute('class', 'news-description');
+    newsSources.setAttribute('class', 'news-sources');
+    newsFullNews.setAttribute('class', 'click-full-news');
+    newsArrowRight.setAttribute('class', 'fas fa-chevron-right');
+    newsArrowRight.setAttribute('id', 'click-arrow');
+
+    newsThumbnail.setAttribute('src', data.articles[i].urlToImage);
+    newsThumbnail.setAttribute('alt', `News image`);
+    newsDate.textContent = data.articles[i].publishedAt;
+    newsHeadline.textContent = data.articles[i].title;
+    newsAuthor.textContent = data.articles[i].author;
+    newsClickMoreDescription.textContent = 'Click here to view description';
+    newsDescription.textContent = data.articles[i].description;
+    newsSources.textContent = `Source by: ${data.articles[i].source.name}`;
+    newsFullNewsDescription.textContent = 'Click here to find out more';
+    newsFullNews.setAttribute('href', data.articles[i].url);
+    newsFullNews.setAttribute('target', '_blank');
+
+    newsFullNews.appendChild(newsArrowRight);
+    newsFullNews.appendChild(newsFullNewsDescription);
+
+    newsClickMore.appendChild(newsArrowDown);
+    newsClickMore.appendChild(newsClickMoreDescription);
+
+    newsDescriptionContainer.appendChild(newsDescription);
+    newsDescriptionContainer.appendChild(newsSources);
+    newsDescriptionContainer.appendChild(newsFullNews);
+
+    newsContent.appendChild(newsDate);
+    newsContent.appendChild(newsHeadline);
+    newsContent.appendChild(newsAuthor);
+    newsContent.appendChild(newsClickMore);
+    newsContent.appendChild(newsDescriptionContainer);
+
+    newsItem.appendChild(newsThumbnail);
+    newsItem.appendChild(newsContent);
+
+    newsContainer.appendChild(newsItem);
+
+    //View full description
+    newsClickMore.addEventListener('click', () => {
+      newsClickMore.style.display = 'none';
+      newsDescriptionContainer.style.display = 'block';
+    });
+  }
+}
+
+//Fetch news data
+const getNewsData = () => {
+  const newsKey = keys.NEWS_KEY;
+  const apiUrl = 'https://newsapi.org/v2/top-headlines?';
+  const country = 'ph';
+  const api = 'sample.json'//`${apiUrl}country=${country}&apiKey=${newsKey}`;
+
+  fetch(api)
+  .then(checkFetch)
+  .then(response => response.json())
+  .then(createNewsItem)
+  .catch(displayError);
+}
+
 changeTime();
 doesNameExists();
 doesMessageExists();
 retrieveToDo();
 updateToDo();
 getLocation();
+getNewsData();
 
 //Toggle when the user wants 12 or 24 hour format
 displayTime.addEventListener('click', () => {
@@ -646,12 +737,6 @@ advancedSearchButton.addEventListener('click', () => {
     advancedSearchSection.style.display = 'none';
   }
 });
-
-//View full description
-newsShowDescription.addEventListener('click', () => {
-  newsShowDescription.style.display = 'none';
-  newsDescription.style.display = 'block';
-})
 
 //Error handling
 exitModal.addEventListener('click', () => {
