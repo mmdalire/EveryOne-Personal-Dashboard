@@ -44,7 +44,7 @@ const mainErrorBlock = document.querySelector('.modal-container');
 const exitModal = document.querySelector('#ok');
 
 //Parse zero whenever the time is in one digit (except hours)
-const parseZero = time => time < 10 ? "0" + time : time;
+const parseZero = time => time < 10 ? "0" + time : time.toString();
 
 //Display the time
 const changeTime = () => {
@@ -518,9 +518,23 @@ const getWeatherData = (city, country, latitude, longitude) => {
   .catch(displayError); //Display errors
 }
 
+//Convert gathered date to more readable one
+const convertToReadableDate = date => {
+  const publishedDate = new Date(date);
+  const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'October', 'November', 'December'];
+
+  return `${month[publishedDate.getMonth()]} ${publishedDate.getDate()}, ${publishedDate.getFullYear()} - ${parseZero(publishedDate.getHours())}:${parseZero(publishedDate.getMinutes())}`
+}
+
 //Process and display the news
 const createNewsItem = data => {
-  for(let i = 0; i < data.articles.length; i++) {
+  let maximumItems = (data.articles.length >= 5) ? 5 : data.articles.length;
+  const loadMoreButton = document.createElement('input');
+  loadMoreButton.setAttribute('type', 'submit');
+  loadMoreButton.setAttribute('value', 'Load More');
+  loadMoreButton.setAttribute('id', 'load-more-btn');
+
+  for(let i = 0; i < maximumItems; i++) {
     const newsItem = document.createElement('div');
     const newsThumbnail = document.createElement('img');
     const newsContent = document.createElement('div');
@@ -556,7 +570,7 @@ const createNewsItem = data => {
 
     newsThumbnail.setAttribute('src', data.articles[i].urlToImage);
     newsThumbnail.setAttribute('alt', `News image`);
-    newsDate.textContent = data.articles[i].publishedAt;
+    newsDate.textContent = convertToReadableDate(data.articles[i].publishedAt);
     newsHeadline.textContent = data.articles[i].title;
     newsAuthor.textContent = data.articles[i].author;
     newsClickMoreDescription.textContent = 'Click here to view description';
@@ -593,6 +607,14 @@ const createNewsItem = data => {
       newsDescriptionContainer.style.display = 'block';
     });
   }
+  data.articles.splice(0, maximumItems);
+  
+  if(data.articles.length > 0) newsContainer.appendChild(loadMoreButton);
+
+  loadMoreButton.addEventListener('click', () => {
+    newsContainer.removeChild(loadMoreButton);
+    createNewsItem(data);
+  });
 }
 
 //Fetch news data
