@@ -154,18 +154,12 @@
                     <input type="text" placeholder="Search using keywords" id="input-keywords">
                 </div>
                 <div class="news-buttons">
-                    <button id="search-news">Search</button>
-                    <button id="advanced-search-btn">Advanced search</button>
+                    <button id="search-news-keyword">Search</button>
+                    <button id="show-advanced-search">Advanced search</button>
                 </div>
                 <div class="advanced-search-section">
-                    <label for="author">Author:</label>
-                    <input type="text" id="author" placeholder="Optional"><br>
-
-                    <label for="sources">Source domain:</label>
-                    <input type="text" id="domain" placeholder="Optional"><br>
-
                     <label for="category">Catergory:</label><br>
-                    <select name="category" id="category">
+                    <select name="news-category" id="news-category">
                         <option value="none">--Choose category--</option>
                         <option value="business">Business</option>
                         <option value="entertainment">Entertainment</option>
@@ -235,7 +229,12 @@
                         <option value="ve">Venezuela</option>
                     </select><br>
 
-                    <input type="submit" value="Search" id="advanced-search">
+                    <input type="submit" value="Search" id="advanced-search-news">
+
+                    <div class="news-reminder">
+                        *Take note that <b>Everything</b> doesn't take 'Category' and 'Country' as a parameter to
+                        search.
+                    </div>
                 </div>
                 <div class="headline-section"></div>
             </div>

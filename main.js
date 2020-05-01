@@ -33,8 +33,14 @@ const maxTemp = document.querySelector('.weather-high-temperature');
 const newsLogo = document.querySelector('#news-logo');
 const newsClose = document.querySelector('.news-list-container #close');
 const newsNavbar = document.querySelector('.news-list-container');
+//Search
+const inputKeyword = document.querySelector('#input-keywords');
+const searchKeyword = document.querySelector('#search-news-keyword');
+const countrySelect = document.querySelector('#news-country');
+const categorySelect = document.querySelector('#news-category');
+const searchAdvancedKeywords = document.querySelector('#advanced-search-news');
 //Advanced search
-const advancedSearchButton = document.querySelector('#advanced-search-btn');
+const showAdvancedSearchButton = document.querySelector('#show-advanced-search');
 const advancedSearchSection = document.querySelector('.advanced-search-section');
 //News headline
 const newsContainer = document.querySelector('.headline-section');
@@ -479,36 +485,22 @@ const displayError = errorCode => {
   error.style.display = 'block';
   weatherNavbar.style.top = '-180px';
 
-  if(errorCode === 400) {
-    errorTitle.textContent = `Error ${errorCode}`;
-    errorBody.textContent = 'You\'ve sent a bad request. You must have sent an empty input.';
-  }
-  else if(errorCode === 401) {
-    errorTitle.textContent = `Error ${errorCode}`;
-    errorBody.textContent = 'Unauthorized access to weather navigation bar. Place an API key to access weather data.';
-  }
-  else if(errorCode === 404) {
-    errorTitle.textContent = `Error ${errorCode}`;
-    errorBody.textContent = 'Location not found.';
-  }
+  errorTitle.textContent = `Error ${errorCode}`;
+  if(errorCode === 400) errorBody.textContent = 'You\'ve sent a bad request. You must have sent an empty input.';
+  else if(errorCode === 401) errorBody.textContent = 'Unauthorized access to one of the services.';
+  else if(errorCode === 404) errorBody.textContent = 'Location not found.';
+  else if(errorCode === 503) errorBody.textContent = 'The service is unavailable.';
 }
 
 //Process and display the weather information
 const getWeatherData = (city, country, latitude, longitude) => {
-  //Declarations of some info for fetching data
-  //For city or country is present
-  const weatherKey = keys.WEATHER_KEY; //API key
-  const apiUrl = 'api.openweathermap.org/data/2.5/weather?';
-  const cityInput = city.value ? city.value + ',' : '';
-  const countryInput = country.value ? country.value : '';
-  let api;
-  //For latitude and longitude is present
-  if(city === '' && country === '') {
-    api = `http://${apiUrl}lat=${latitude}&lon=${longitude}&appid=${weatherKey}`;
-  }
-  else {
-    api = `http://${apiUrl}q=${cityInput}${countryInput}&appid=${weatherKey}`;
-  }
+  const apiWeatherKey =  `appid=${keys.WEATHER_KEY}`; //API key
+  const apiUrl = 'http://api.openweathermap.org/data/2.5/weather?';
+  const apiLatitude = `lat=${latitude}&`;
+  const apiLongitude = `lon=${longitude}&`;
+  const apiCity = (city.value) ? `${city.value},&` : '';
+  const apiCountry = (country.value) ? `${country.value}&` : '';
+  const api = (city === '' && country === '') ? `${apiUrl}${apiLatitude}${apiLongitude}${apiWeatherKey}` : `${apiUrl}q=${apiCity}${apiCountry}${apiWeatherKey}`;
 
   //Fetching the data
   fetch(api) 
@@ -516,6 +508,30 @@ const getWeatherData = (city, country, latitude, longitude) => {
   .then(response => response.json()) //Get the body of data
   .then(displayWeather) //Display the weather
   .catch(displayError); //Display errors
+}
+
+//Clear news data
+const clearNewsData = () => {
+  newsContainer.textContent = '';
+}
+
+//Display whether headline or everything
+const endpointSettings = endpoint => {
+  const header = document.createElement('h2');
+  newsContainer.appendChild(header);
+
+  if(endpoint === 'top-headlines?') {
+    header.textContent = 'Headline';
+    countrySelect.disabled = false;
+    categorySelect.disabled = false;
+    searchAdvancedKeywords.disabled = false;
+  }
+  else {
+    header.textContent = 'Everything';
+    countrySelect.disabled = true;
+    categorySelect.disabled = true;
+    searchAdvancedKeywords.disabled = true;
+  }
 }
 
 //Convert gathered date to more readable one
@@ -568,7 +584,9 @@ const createNewsItem = data => {
     newsArrowRight.setAttribute('class', 'fas fa-chevron-right');
     newsArrowRight.setAttribute('id', 'click-arrow');
 
-    newsThumbnail.setAttribute('src', data.articles[i].urlToImage);
+    if(data.articles[i].urlToImage !== null) newsThumbnail.setAttribute('src', data.articles[i].urlToImage);
+    else newsThumbnail.setAttribute('src', 'images/no_image.jpg');
+
     newsThumbnail.setAttribute('alt', `News image`);
     newsDate.textContent = convertToReadableDate(data.articles[i].publishedAt);
     newsHeadline.textContent = data.articles[i].title;
@@ -618,11 +636,17 @@ const createNewsItem = data => {
 }
 
 //Fetch news data
-const getNewsData = () => {
-  const newsKey = keys.NEWS_KEY;
-  const apiUrl = 'https://newsapi.org/v2/top-headlines?';
-  const country = 'ph';
-  const api = 'sample.json'//`${apiUrl}country=${country}&apiKey=${newsKey}`;
+const getNewsData = (keyword, country, category) => {
+  const apiKey = `apiKey=${keys.NEWS_KEY}`;
+  const apiUrl = 'https://newsapi.org/v2/';
+  const apiEndpoint = (keyword !== undefined && keyword !== '') ? 'everything?': 'top-headlines?';
+  const apiKeyword = (keyword !== undefined && keyword !== '') ? `q=${keyword}&` : '';
+  const apiCountry = (country !== undefined && country !== 'none' && apiEndpoint === 'top-headlines?') ? `country=${country}&` : '';
+  const apiCategory = (category !== undefined && category !== 'none' && apiEndpoint === 'top-headlines?') ? `category=${category}&` : '';
+  const api = `${apiUrl}${apiEndpoint}${apiKeyword}${apiCountry}${apiCategory}${apiKey}`;
+  //const apiSample = 'sample.json';
+
+  endpointSettings(apiEndpoint);
 
   fetch(api)
   .then(checkFetch)
@@ -637,7 +661,7 @@ doesMessageExists();
 retrieveToDo();
 updateToDo();
 getLocation();
-getNewsData();
+getNewsData(undefined, 'ph', undefined);
 
 //Toggle when the user wants 12 or 24 hour format
 displayTime.addEventListener('click', () => {
@@ -747,18 +771,30 @@ newsClose.addEventListener('click', () => {
   newsNavbar.style.left = '-300px';
 });
 
-advancedSearchButton.addEventListener('click', () => {
+//Show advanced search
+showAdvancedSearchButton.addEventListener('click', () => {
   if(advancedSearchSection.style.display === 'none') {
-    advancedSearchButton.style.backgroundColor = 'rgb(236, 182, 2)';
-    advancedSearchButton.textContent = 'Close search';
+    showAdvancedSearchButton.style.backgroundColor = 'rgb(236, 182, 2)';
+    showAdvancedSearchButton.textContent = 'Close search';
     advancedSearchSection.style.display = 'block';
   }
   else {
-    advancedSearchButton.style.backgroundColor = 'white';
-    advancedSearchButton.textContent = 'Advanced search';
+    showAdvancedSearchButton.style.backgroundColor = 'white';
+    showAdvancedSearchButton.textContent = 'Advanced search';
     advancedSearchSection.style.display = 'none';
   }
 });
+
+//Search keyword button
+searchKeyword.addEventListener('click', () => {
+  clearNewsData();
+  getNewsData(inputKeyword.value, 'ph', undefined);
+});
+
+searchAdvancedKeywords.addEventListener('click', () => {
+  clearNewsData();
+  getNewsData(inputKeyword.value, countrySelect.value, categorySelect.value);
+})
 
 //Error handling
 exitModal.addEventListener('click', () => {

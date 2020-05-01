@@ -391,10 +391,22 @@ select {
   background-color: rgb(255, 255, 255, 0.5);
 }
 
+.news-reminder {
+  color: red;
+  margin-top: 10px;
+  font-size: 12px;
+  padding-right: 10px;
+  text-align: justify;
+}
+
 .headline-section {
   overflow: auto;
   margin: 10px 0;
   padding: 0 20px;
+}
+
+.headline-section h2 {
+  color: white;
 }
 
 .news-item {
