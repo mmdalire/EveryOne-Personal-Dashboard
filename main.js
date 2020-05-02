@@ -33,16 +33,16 @@ const maxTemp = document.querySelector('.weather-high-temperature');
 const newsLogo = document.querySelector('#news-logo');
 const newsClose = document.querySelector('.news-list-container #close');
 const newsNavbar = document.querySelector('.news-list-container');
-//Search
+
 const inputKeyword = document.querySelector('#input-keywords');
 const searchKeyword = document.querySelector('#search-news-keyword');
 const countrySelect = document.querySelector('#news-country');
 const categorySelect = document.querySelector('#news-category');
 const searchAdvancedKeywords = document.querySelector('#advanced-search-news');
-//Advanced search
+
 const showAdvancedSearchButton = document.querySelector('#show-advanced-search');
 const advancedSearchSection = document.querySelector('.advanced-search-section');
-//News headline
+
 const newsContainer = document.querySelector('.headline-section');
 
 //Error handling
@@ -50,12 +50,12 @@ const mainErrorBlock = document.querySelector('.modal-container');
 const exitModal = document.querySelector('#ok');
 
 //Parse zero whenever the time is in one digit (except hours)
-const parseZero = time => time < 10 ? "0" + time : time.toString();
+const parseZero = time => time < 10 ? `0${time}` : time.toString();
 
 //Display the time
 const changeTime = () => {
   let time = new Date();
-  let hours = time.getHours();
+  let hours = 18//time.getHours();
   let minutes = time.getMinutes();
   let seconds = time.getSeconds();
 
@@ -69,8 +69,8 @@ const changeTime = () => {
   if(displayAmOrPm === true) {
     displayTime.textContent = `${hours % 12 === 0 ? 12 : hours % 12}:${parseZero(minutes)}:${parseZero(seconds)}`;
 
-    if(hours < 12) displayTime.textContent += ` AM`; //If AM
-    else displayTime.textContent += ` PM`; //Or PM
+    if(hours < 12) displayTime.textContent += ' AM'; //If AM
+    else displayTime.textContent += ' PM'; //Or PM
   }
   //Display 24 hour
   else {
@@ -138,7 +138,6 @@ const doesMessageExists = () => {
   messageContent.textContent = localStorage.getItem('MESSAGE').toString();
 }
 
-
 //Create a new to do item 
 const createToDoItem = () => {
   if(validateToDoItem() === true) return; //Does not create an element when one of the inputs is invalid
@@ -174,7 +173,7 @@ const createToDoItem = () => {
   //Placing of content to elements
   todoItemName.textContent = document.querySelector('#name-of-todo').value;
   todoDue.textContent = 'Due: ';
-  todoDueDate.textContent = document.querySelector('#date-of-todo').value + ' ';
+  todoDueDate.textContent = `${document.querySelector('#date-of-todo').value} `;
   todoDueTime.textContent = document.querySelector('#time-of-todo').value;
   todoDescription.textContent = document.querySelector('#description-of-todo').value;
   todoDelete.textContent = 'Delete';
@@ -380,7 +379,7 @@ const displayWeather = data => {
   imageTemperature.setAttribute('src', `http://openweathermap.org/img/wn/${imageId}@2x.png`);
 
   //Display the input name
-  cityDisplayName.textContent = data.name + ' ,';
+  cityDisplayName.textContent = `${data.name} ,`;
   countryDisplayName.textContent = data.sys.country;
   
   //Display the temperature
@@ -393,12 +392,12 @@ const displayWeather = data => {
   //Other information display
   mainWeather.textContent = data.weather[0].main;
   description.textContent = data.weather[0].description;
-  wind.textContent = data.wind.speed + ' m/s ' +  data.wind.deg + degreesDirection(data.wind.deg);
+  wind.textContent = `${data.wind.speed} m/s ${data.wind.deg}${degreesDirection(data.wind.deg)}`;
   cloudiness.textContent = cloudinessConversion(data.clouds.all);
-  pressure.textContent = data.main.pressure.toString() + ' hPa';
-  humidity.textContent = data.main.humidity.toString() + ' %';
-  sunriseTime.textContent = new Date(data.sys.sunrise * 1000).getHours() + ':' + parseZero(new Date(data.sys.sunrise * 1000).getMinutes());
-  sunsetTime.textContent = new Date(data.sys.sunset * 1000).getHours() + ':' + parseZero(new Date(data.sys.sunset * 1000).getMinutes());
+  pressure.textContent = `${data.main.pressure.toString()} hPa`;
+  humidity.textContent = `${data.main.humidity.toString()} %`;
+  sunriseTime.textContent = `${new Date(data.sys.sunrise * 1000).getHours()}:${parseZero(new Date(data.sys.sunrise * 1000).getMinutes())}`;
+  sunsetTime.textContent = `${new Date(data.sys.sunset * 1000).getHours()}:${parseZero(new Date(data.sys.sunset * 1000).getMinutes())}`;
 
   //Change background depending on the weather
   changeWeatherBackground(data.weather[0].main, new Date(data.dt * 1000).getHours());
@@ -406,9 +405,9 @@ const displayWeather = data => {
 
 //Convert temperature from Kelvin to Celsius and Fahrenheit
 const convertTemperature = (temperature, degree) => {
-  if(degree === 'kelvin-to-celsius') return (temperature - 273.15).toFixed(2).toString() + ' °C';
-  else if(degree === 'celsius') return ((temperature - 32) * (5/9)).toFixed(2).toString() + ' °C';
-  else if(degree === 'fahrenheit') return (temperature * (9/5) + 32).toFixed(2).toString() + ' °F';
+  if(degree === 'kelvin-to-celsius') return `${(temperature - 273.15).toFixed(2).toString()} °C`;
+  else if(degree === 'celsius') return `${((temperature - 32) * (5/9)).toFixed(2).toString()} °C`;
+  else return `${(temperature * (9/5) + 32).toFixed(2).toString()} °F`;
 }
 
 //Convert degrees into readable direction 
@@ -427,7 +426,7 @@ const degreesDirection = degrees => {
 }
 
 //Cloud conversion
-const cloudinessConversion = (clouds) => {
+const cloudinessConversion = clouds => {
   if(clouds >= 0 && clouds < 10) return ' Clear ';
   else if(clouds >= 10 && clouds < 20) return ' Fair ';
   else if(clouds >= 20 && clouds < 30) return ' Mostly Fair ';
@@ -457,7 +456,7 @@ const changeWeatherBackground = (weather, time) => {
     }
   }   
   else {
-    changeWallpaper(new Date().getHours());
+    //changeWallpaper(new Date().getHours());
   }   
 }
 
@@ -483,13 +482,14 @@ const displayError = errorCode => {
   const errorTitle = document.querySelector('.modal-header');
   const errorBody = document.querySelector('.modal-content p');
   error.style.display = 'block';
-  weatherNavbar.style.top = '-180px';
+  weatherNavbar.style.top = '-100vh';
 
   errorTitle.textContent = `Error ${errorCode}`;
   if(errorCode === 400) errorBody.textContent = 'You\'ve sent a bad request. You must have sent an empty input.';
   else if(errorCode === 401) errorBody.textContent = 'Unauthorized access to one of the services.';
   else if(errorCode === 404) errorBody.textContent = 'Location not found.';
   else if(errorCode === 503) errorBody.textContent = 'The service is unavailable.';
+  else ;
 }
 
 //Process and display the weather information
@@ -502,7 +502,6 @@ const getWeatherData = (city, country, latitude, longitude) => {
   const apiCountry = (country.value) ? `${country.value}&` : '';
   const api = (city === '' && country === '') ? `${apiUrl}${apiLatitude}${apiLongitude}${apiWeatherKey}` : `${apiUrl}q=${apiCity}${apiCountry}${apiWeatherKey}`;
 
-  //Fetching the data
   fetch(api) 
   .then(checkFetch) //Check for fetching errors
   .then(response => response.json()) //Get the body of data
@@ -517,8 +516,8 @@ const clearNewsData = () => {
 
 //Display whether headline or everything
 const endpointSettings = endpoint => {
-  const header = document.createElement('h2');
-  newsContainer.appendChild(header);
+  //const header = document.createElement('h2').setAttribute('id', 'endpoint-type');
+  const header = document.querySelector('#endpoint-type');
 
   if(endpoint === 'top-headlines?') {
     header.textContent = 'Headline';
@@ -544,7 +543,7 @@ const convertToReadableDate = date => {
 
 //Process and display the news
 const createNewsItem = data => {
-  let maximumItems = (data.articles.length >= 5) ? 5 : data.articles.length;
+  let maximumItems = (data.articles.length >= 6) ? 6 : data.articles.length;
   const loadMoreButton = document.createElement('input');
   loadMoreButton.setAttribute('type', 'submit');
   loadMoreButton.setAttribute('value', 'Load More');
@@ -625,10 +624,11 @@ const createNewsItem = data => {
       newsDescriptionContainer.style.display = 'block';
     });
   }
-  data.articles.splice(0, maximumItems);
+  data.articles.splice(0, maximumItems); //Remove showed news in the array
   
-  if(data.articles.length > 0) newsContainer.appendChild(loadMoreButton);
+  if(data.articles.length > 0) newsContainer.appendChild(loadMoreButton); //Show load more when there are more news to show
 
+  //Cleares the load more button when it is clicked
   loadMoreButton.addEventListener('click', () => {
     newsContainer.removeChild(loadMoreButton);
     createNewsItem(data);
@@ -644,11 +644,12 @@ const getNewsData = (keyword, country, category) => {
   const apiCountry = (country !== undefined && country !== 'none' && apiEndpoint === 'top-headlines?') ? `country=${country}&` : '';
   const apiCategory = (category !== undefined && category !== 'none' && apiEndpoint === 'top-headlines?') ? `category=${category}&` : '';
   const api = `${apiUrl}${apiEndpoint}${apiKeyword}${apiCountry}${apiCategory}${apiKey}`;
-  //const apiSample = 'sample.json';
+  const apiSample = 'sample.json';
 
+  //Change search parameters by endpoint
   endpointSettings(apiEndpoint);
 
-  fetch(api)
+  fetch(apiSample)
   .then(checkFetch)
   .then(response => response.json())
   .then(createNewsItem)
@@ -707,7 +708,7 @@ todoLogo.addEventListener('click', () => {
 });
 
 todoClose.addEventListener('click', () => {
-  todoNavbar.style.right = '-300px';
+  todoNavbar.style.right = '-100vw';
 });
 
 //Add to do button
@@ -729,7 +730,6 @@ createToDo.addEventListener('click', () => {
   createToDoItem();
 });
 
-//Weather section
 //Open navigation bar
 weatherLogo.addEventListener('click', () => {
   weatherNavbar.style.top = '0';
@@ -737,7 +737,7 @@ weatherLogo.addEventListener('click', () => {
 
 //Close navigation bar
 weatherClose.addEventListener('click', () => {
-  weatherNavbar.style.top = '-180px';
+  weatherNavbar.style.top = '-100vh';
 });
 
 //Submit location to see weather
@@ -768,7 +768,7 @@ newsLogo.addEventListener('click', () => {
 });
 
 newsClose.addEventListener('click', () => {
-  newsNavbar.style.left = '-300px';
+  newsNavbar.style.left = '-100vw';
 });
 
 //Show advanced search

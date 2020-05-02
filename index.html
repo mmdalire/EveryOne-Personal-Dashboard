@@ -51,7 +51,7 @@
                     <label for="time-of-todo">Time: </label><br>
                     <input type="time" id="time-of-todo"><br>
 
-                    <label for="description-of-todo">Description: </label>
+                    <label for="description-of-todo">Description: </label><br>
                     <textarea name="description-of-todo" id="description-of-todo" placeholder="Optional"></textarea><br>
 
                     <input type="submit" value="Add todo" id="create-todo">
@@ -79,9 +79,11 @@
                             <i class="fas fa-map-marker-alt" id="location"></i>
                             <input type="text" id="city-input" placeholder="Enter city"><br>
                         </div>
-                        <button class="weather-location" id="submit-location">
-                            Send location
-                        </button>
+                        <div class="submit-container">
+                            <button class="weather-location" id="submit-location">
+                                Send location
+                            </button>
+                        </div>
                     </div>
                     <div class="weather-display">
                         <img src="" id="current-weather" alt="Current weather icon">
@@ -98,7 +100,7 @@
                             <span id="weather-section-display">
                                 <i class="wi wi-small-craft-advisory" id="other-icon"></i> Main weather:
                             </span>
-                            <span id="weather-main">--</span>
+                            <span id="weather-main">--</span><br>
 
                             <span id="weather-section-display">
                                 <i class="wi wi-small-craft-advisory" id="other-icon"></i> Description:
@@ -236,18 +238,29 @@
                         search.
                     </div>
                 </div>
+                <h2 id="endpoint-type"></h2>
                 <div class="headline-section"></div>
             </div>
         </div>
     </div>
     <footer>
-        <img src="images/js-logo.png" id="logo" alt="JS logo">
-        <div class="footer__title">
-            <h1>EveryOne Personal Dashboard</h1>
-            <h3>Date started: <date>April 16, 2020</date>
-            </h3>
-            <h3>Date ended: <date></date>
-            </h3>
+        <div class="footer-title">
+            <img src="images/js-logo.png" id="logo" alt="JS logo">
+            <div class="footer-details">
+                <h1>EveryOne Personal Dashboard</h1>
+                <h3>Date started: <date>April 16, 2020</date>
+                </h3>
+                <h3>Date ended: <date></date>
+                </h3>
+            </div>
+        </div>
+        <div class="footer-powered-api">
+            <h3>Powered by:</h3>
+            <div class="api-images">
+                <a href="https://openweathermap.org/" target="_blank"><img src="images/openweather-api.png"
+                        alt="OpenWeatherMap API logo"></a>
+                <a href="https://newsapi.org/" target="_blank"><img src="images/news-api.png" alt="News API logo"></a>
+            </div>
         </div>
     </footer>
 </body>
