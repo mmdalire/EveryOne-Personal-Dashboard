@@ -49,18 +49,18 @@ const newsContainer = document.querySelector('.headline-section');
 const mainErrorBlock = document.querySelector('.modal-container');
 const exitModal = document.querySelector('#ok');
 
+//Footer
+const footerCredit = document.querySelector('.footer-image-credits');
+
 //Parse zero whenever the time is in one digit (except hours)
 const parseZero = time => time < 10 ? `0${time}` : time.toString();
 
 //Display the time
 const changeTime = () => {
   let time = new Date();
-  let hours = 18//time.getHours();
+  let hours = time.getHours();
   let minutes = time.getMinutes();
   let seconds = time.getSeconds();
-
-  //Change the wallpaper according to hours
-  changeWallpaper(hours);
 
   //Change the greeting according to hours
   changeGreeting(hours);
@@ -78,43 +78,57 @@ const changeTime = () => {
   }
 
   //Make the clock run automatically
-  //setInterval(changeTime, 1000);
+  setInterval(changeTime, 1000);
 };
 
 const changeWallpaper = hours => {
   const wallpaper = document.querySelector('body');
+  const creditLink = document.createElement('a');
+
+  footerCredit.textContent = '';
   //Sunrise
   if(hours >= 5 && hours < 8) {
     wallpaper.style.background = 'url(images/sunrise.jpg)';
-    wallpaper.style.backgroundPosition = '0 0';
+    wallpaper.style.backgroundPosition = 'center';
     wallpaper.style.backgroundSize = 'cover';
     wallpaper.style.backgroundRepeat = 'no-repeat';
     wallpaper.style.transition = '1s all';
+    creditLink.setAttribute('href', 'https://www.pexels.com/@grizzlybear');
+    creditLink.textContent = 'Sunrise: Photo by Jonathan Patersons from Pexels';
   }
   //Daylight
   else if(hours >= 8 && hours < 17) {
     wallpaper.style.background = 'url(images/daylight.jpg)';
-    wallpaper.style.backgroundPosition = '0 -400px';
+    wallpaper.style.backgroundPosition = 'center';
     wallpaper.style.backgroundSize = 'cover';
     wallpaper.style.backgroundRepeat = 'no-repeat';
     wallpaper.style.transition = '1s all';
+    creditLink.setAttribute('href', 'https://www.pexels.com/@packermann');
+    creditLink.textContent = 'Daylight: Photo by Philip Ackermann from Pexels';
   }
   //Sunset
   else if(hours >= 17 && hours < 19) {
     wallpaper.style.background = 'url(images/sunset.jpg)';
-    wallpaper.style.backgroundPosition = '0 0';
+    wallpaper.style.backgroundPosition = 'center';
     wallpaper.style.backgroundSize = 'cover';
     wallpaper.style.backgroundRepeat = 'no-repeat';
     wallpaper.style.transition = '1s all';
+    creditLink.setAttribute('href', 'https://www.pexels.com/@brittany-17733');
+    creditLink.textContent = 'Sunset: Photo by brittany from Pexels';
   }
   //Evening
   else {
     wallpaper.style.background = 'url(images/nighttime.jpg)';
-    wallpaper.style.backgroundPosition = '0 -1000px';
+    wallpaper.style.backgroundPosition = 'center';
     wallpaper.style.backgroundSize = 'cover';
     wallpaper.style.backgroundRepeat = 'no-repeat';
     wallpaper.style.transition = '1s all';
+    creditLink.setAttribute('href', 'https://www.pexels.com/@sanaan');
+    creditLink.textContent = 'Nighttime: Photo by Sanaan Mazhar from Pexels';
   }
+
+  creditLink.setAttribute('target', '_blank');
+  footerCredit.appendChild(creditLink);
 }
 
 //Change the greeting based on time
@@ -438,14 +452,18 @@ const cloudinessConversion = clouds => {
 //Change background 
 const changeWeatherBackground = (weather, time) => {
   const wallpaper = document.querySelector('body');
+  const creditLink = document.createElement('a');
+  footerCredit.textContent = '';
 
   if(weather === 'Rain') {
     if(time >= 7 && time < 19) {
       wallpaper.style.background = 'url(images/rain-day.jpg)';
-      wallpaper.style.backgroundPosition = '0 -250px';
+      wallpaper.style.backgroundPosition = 'center bottom';
       wallpaper.style.backgroundSize = 'cover';
       wallpaper.style.backgroundRepeat = 'no-repeat';
       wallpaper.style.transition = '1s all';
+      creditLink.textContent = 'Rainy day: Photo by SHAH Shah on Unsplash';
+      creditLink.setAttribute('href', 'https://unsplash.com/@drjay93');
     }
     else {
       wallpaper.style.background = 'url(images/rain-night.jpg)';
@@ -453,10 +471,14 @@ const changeWeatherBackground = (weather, time) => {
       wallpaper.style.backgroundSize = 'cover';
       wallpaper.style.backgroundRepeat = 'no-repeat';
       wallpaper.style.transition = '1s all';
+      creditLink.textContent = 'Rainy night: Photo by Harry Cunningham on Unsplash';
+      creditLink.setAttribute('href', 'https://unsplash.com/@harrycunnningham1');
     }
+    creditLink.setAttribute('target', '_blank');
+    footerCredit.appendChild(creditLink);
   }   
   else {
-    //changeWallpaper(new Date().getHours());
+    changeWallpaper(new Date().getHours());
   }   
 }
 
@@ -516,7 +538,6 @@ const clearNewsData = () => {
 
 //Display whether headline or everything
 const endpointSettings = endpoint => {
-  //const header = document.createElement('h2').setAttribute('id', 'endpoint-type');
   const header = document.querySelector('#endpoint-type');
 
   if(endpoint === 'top-headlines?') {
@@ -644,12 +665,11 @@ const getNewsData = (keyword, country, category) => {
   const apiCountry = (country !== undefined && country !== 'none' && apiEndpoint === 'top-headlines?') ? `country=${country}&` : '';
   const apiCategory = (category !== undefined && category !== 'none' && apiEndpoint === 'top-headlines?') ? `category=${category}&` : '';
   const api = `${apiUrl}${apiEndpoint}${apiKeyword}${apiCountry}${apiCategory}${apiKey}`;
-  const apiSample = 'sample.json';
 
   //Change search parameters by endpoint
   endpointSettings(apiEndpoint);
 
-  fetch(apiSample)
+  fetch(api)
   .then(checkFetch)
   .then(response => response.json())
   .then(createNewsItem)
