@@ -1,0 +1,24 @@
+{
+  "name": "eveyone-personal-dashboard",
+  "version": "1.0.0",
+  "description": "A personal dashboard that contains a clock (in 12/24 hour format), a weather widget, and a news widget",
+  "main": "main.js",
+  "scripts": {
+    "lambda-serve": "netlify-lambda serve functions",
+    "lambda-build": "netlify-lambda build functions"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmdalire/JS-Landing-Page.git"
+  },
+  "author": "Mark Joshua Dalire",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmdalire/JS-Landing-Page/issues"
+  },
+  "homepage": "https://github.com/mmdalire/JS-Landing-Page#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "netlify-lambda": "^1.6.3"
+  }
+}

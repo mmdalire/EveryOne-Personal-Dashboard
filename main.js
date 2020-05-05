@@ -119,7 +119,7 @@ const changeWallpaper = hours => {
   //Evening
   else {
     wallpaper.style.background = 'url(images/nighttime.jpg)';
-    wallpaper.style.backgroundPosition = 'center';
+    wallpaper.style.backgroundPosition = 'bottom center';
     wallpaper.style.backgroundSize = 'cover';
     wallpaper.style.backgroundRepeat = 'no-repeat';
     wallpaper.style.transition = '1s all';
@@ -511,20 +511,22 @@ const displayError = errorCode => {
   else if(errorCode === 401) errorBody.textContent = 'Unauthorized access to one of the services.';
   else if(errorCode === 404) errorBody.textContent = 'Location not found.';
   else if(errorCode === 503) errorBody.textContent = 'The service is unavailable.';
-  else ;
+  else {
+    errorTitle.textContent = 'Error'
+    errorBody.textContent = 'Cannot retrieve data due to invalid or empty inputs';
+  } 
 }
 
 //Process and display the weather information
 const getWeatherData = (city, country, latitude, longitude) => {
-  const apiWeatherKey =  `appid=${keys.WEATHER_KEY}`; //API key
-  const apiUrl = 'http://api.openweathermap.org/data/2.5/weather?';
+  const apiUrl = '/.netlify/functions/get_weather?';
   const apiLatitude = `lat=${latitude}&`;
   const apiLongitude = `lon=${longitude}&`;
   const apiCity = (city.value) ? `${city.value},&` : '';
   const apiCountry = (country.value) ? `${country.value}&` : '';
-  const api = (city === '' && country === '') ? `${apiUrl}${apiLatitude}${apiLongitude}${apiWeatherKey}` : `${apiUrl}q=${apiCity}${apiCountry}${apiWeatherKey}`;
+  const api = (city === '' && country === '') ? `${apiUrl}${apiLatitude}${apiLongitude}` : `${apiUrl}q=${apiCity}${apiCountry}`;
 
-  fetch(api) 
+  fetch(api)
   .then(checkFetch) //Check for fetching errors
   .then(response => response.json()) //Get the body of data
   .then(displayWeather) //Display the weather
@@ -540,7 +542,7 @@ const clearNewsData = () => {
 const endpointSettings = endpoint => {
   const header = document.querySelector('#endpoint-type');
 
-  if(endpoint === 'top-headlines?') {
+  if(endpoint === 'top-headlines&') {
     header.textContent = 'Headline';
     countrySelect.disabled = false;
     categorySelect.disabled = false;
@@ -658,14 +660,12 @@ const createNewsItem = data => {
 
 //Fetch news data
 const getNewsData = (keyword, country, category) => {
-  const apiKey = `apiKey=${keys.NEWS_KEY}`;
-  const apiUrl = 'https://newsapi.org/v2/';
-  const apiEndpoint = (keyword !== undefined && keyword !== '') ? 'everything?': 'top-headlines?';
+  const apiUrl = '/.netlify/functions/get_news?';
+  const apiEndpoint = (keyword !== undefined && keyword !== '') ? 'everything&': 'top-headlines&';
   const apiKeyword = (keyword !== undefined && keyword !== '') ? `q=${keyword}&` : '';
-  const apiCountry = (country !== undefined && country !== 'none' && apiEndpoint === 'top-headlines?') ? `country=${country}&` : '';
-  const apiCategory = (category !== undefined && category !== 'none' && apiEndpoint === 'top-headlines?') ? `category=${category}&` : '';
-  const api = `${apiUrl}${apiEndpoint}${apiKeyword}${apiCountry}${apiCategory}${apiKey}`;
-
+  const apiCountry = (country !== undefined && country !== 'none' && apiEndpoint === 'top-headlines&') ? `country=${country}&` : '';
+  const apiCategory = (category !== undefined && category !== 'none' && apiEndpoint === 'top-headlines&') ? `category=${category}` : '';
+  const api = `${apiUrl}endpoint=${apiEndpoint}${apiKeyword}${apiCountry}${apiCategory}`;
   //Change search parameters by endpoint
   endpointSettings(apiEndpoint);
 
@@ -674,6 +674,7 @@ const getNewsData = (keyword, country, category) => {
   .then(response => response.json())
   .then(createNewsItem)
   .catch(displayError);
+  
 }
 
 changeTime();
