@@ -3,7 +3,7 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: "Roboto", "Trebuchet MS", sans-serif;
   overflow-x: hidden;
   text-decoration: none;
 }
@@ -78,6 +78,8 @@ select {
   margin: 50px auto;
   width: 300px;
   height: 80px;
+  background-color: transparent;
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border: solid 5px white;
   border-radius: 10px;
@@ -151,6 +153,7 @@ select {
   top: 0;
   text-align: center;
   height: 100vh;
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   position: fixed;
   transition: 1s all;
@@ -229,19 +232,21 @@ select {
 
 /*Weather part*/
 #current-weather {
-  width: 200px;
-  margin-top: -40px;
+  overflow: hidden;
+  width: 150px;
   image-rendering: pixelated;
-  height: 200px;
+  height: 150px;
 }
 
 .weather-list-container {
   position: fixed;
   width: 100vw;
-  height: 200px;
+  height: 220px;
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   top: -200px;
   transition: 1s all;
+  overflow-y: hidden;
 }
 
 .weather-list-container #close {
@@ -351,6 +356,7 @@ select {
   width: 700px;
   left: -700px;
   height: 100vh;
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   transition: 1s all;
 }
@@ -480,6 +486,7 @@ select {
 footer {
   padding: 10px;
   background-color: transparent;
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   color: white;
 }
@@ -522,6 +529,7 @@ footer {
   position: absolute;
   top: 0;
   display: none;
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   height: 100vh;
   width: 100vw;
@@ -564,8 +572,16 @@ footer {
 }
 
 @keyframes open {
-  from{backdrop-filter: gray(0); height: 0}
-  to{backdrop-filter: gray(20px); height: 100vh}
+  from {backdrop-filter: gray(0); 
+    -webkit-backdrop-filter: gray(0); 
+    height: 0;
+  }
+
+  to {
+    backdrop-filter: gray(20px); 
+    -webkit-backdrop-filter: gray(20px);
+    height: 100vh;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -579,7 +595,6 @@ footer {
   .weather-list-container {
     height: 370px;
     top: -370px;
-    overflow-y: hidden;
   }
 
   .weather-information {
@@ -593,6 +608,10 @@ footer {
 
   #weather-width {
     text-align: center;
+  }
+
+  #current-weather {
+    margin-left: 120px;
   }
 
   .submit-container {
@@ -665,6 +684,11 @@ footer {
     font-size: 40px;
   }
 
+  .weather-current-temperature {
+    font-size: 25px;
+    margin-bottom: 10px;
+  }
+
   .footer-title {
     flex-direction: column;
   }
@@ -683,7 +707,7 @@ footer {
   
   /*Weather*/
   #current-weather {
-    margin: -30px 0;
+    margin: -35px 0;
     width: 120px;
     height: 120px;
   }

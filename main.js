@@ -1,3 +1,5 @@
+//Background
+const page = document.querySelector('html');
 //For time
 const displayTime = document.querySelector("#time"); //Get the time display
 let displayAmOrPm = true; //Check whether to display 12 or 24 hr format
@@ -103,8 +105,8 @@ const changeWallpaper = hours => {
     wallpaper.style.backgroundSize = 'cover';
     wallpaper.style.backgroundRepeat = 'no-repeat';
     wallpaper.style.transition = '1s all';
-    creditLink.setAttribute('href', 'https://www.pexels.com/@packermann');
-    creditLink.textContent = 'Daylight: Photo by Philip Ackermann from Pexels';
+    creditLink.setAttribute('href', 'https://www.pexels.com/@brandon-montrone-230847');
+    creditLink.textContent = 'Daylight: Photo by Brandon Montrone from Pexels';
   }
   //Sunset
   else if(hours >= 17 && hours < 19) {
@@ -282,8 +284,8 @@ const todoListeners = (item, checklistItem, deleteItem) => {
   //Display the delete option in every task
   item.addEventListener('click', () => {
     deleteItem.style.color = 'white';
-    if(deleteItem.style.display === 'none') deleteItem.style.display = 'block';
-    else deleteItem.style.display = 'none';
+    if(deleteItem.style.display === 'block') deleteItem.style.display = 'none';
+    else deleteItem.style.display = 'block';
   });
 
   //Deletes the task
@@ -505,6 +507,7 @@ const displayError = errorCode => {
   const errorBody = document.querySelector('.modal-content p');
   error.style.display = 'block';
   weatherNavbar.style.top = '-100vh';
+  newsNavbar.style.left = '-100vw';
 
   errorTitle.textContent = `Error ${errorCode}`;
   if(errorCode === 400) errorBody.textContent = 'You\'ve sent a bad request. You must have sent an empty input.';
@@ -677,6 +680,7 @@ const getNewsData = (keyword, country, category) => {
   
 }
 
+changeWallpaper(new Date().getHours());
 changeTime();
 doesNameExists();
 doesMessageExists();
@@ -726,23 +730,25 @@ messageContent.addEventListener('blur', () => {
 //To do section
 todoLogo.addEventListener('click', () => {
   todoNavbar.style.right = '0';
+  page.style.overflowY = 'hidden';
 });
 
 todoClose.addEventListener('click', () => {
   todoNavbar.style.right = '-100vw';
+  page.style.overflowY = 'auto';
 });
 
 //Add to do button
 addToListButton.addEventListener('click', () => {
-  if(addToDoList.style.display === 'none'){
+  if(addToDoList.style.display === 'block'){
+    addToListButton.style.backgroundColor = 'transparent';
+    addToListButton.textContent = '+ Add to-do';
+    addToDoList.style.display = 'none';
+  }
+  else {
     addToListButton.style.backgroundColor = 'rgb(236, 182, 2)';
     addToListButton.textContent = 'Close';
     addToDoList.style.display = 'block';
-  }
-  else {
-    addToListButton.style.backgroundColor = 'transparent';
-    addToListButton.textContent = '+ Add todo';
-    addToDoList.style.display = 'none';
   }
 });
 
@@ -754,11 +760,13 @@ createToDo.addEventListener('click', () => {
 //Open navigation bar
 weatherLogo.addEventListener('click', () => {
   weatherNavbar.style.top = '0';
+  page.style.overflowY = 'hidden';
 });
 
 //Close navigation bar
 weatherClose.addEventListener('click', () => {
   weatherNavbar.style.top = '-100vh';
+  page.style.overflowY = 'auto';
 });
 
 //Submit location to see weather
@@ -786,23 +794,25 @@ mainTemp.addEventListener('click', () => {
 //News section
 newsLogo.addEventListener('click', () => {
   newsNavbar.style.left =  '0';
+  page.style.overflowY = 'hidden';
 });
 
 newsClose.addEventListener('click', () => {
   newsNavbar.style.left = '-100vw';
+  page.style.overflowY = 'auto';
 });
 
 //Show advanced search
 showAdvancedSearchButton.addEventListener('click', () => {
-  if(advancedSearchSection.style.display === 'none') {
-    showAdvancedSearchButton.style.backgroundColor = 'rgb(236, 182, 2)';
-    showAdvancedSearchButton.textContent = 'Close search';
-    advancedSearchSection.style.display = 'block';
-  }
-  else {
+  if(advancedSearchSection.style.display === 'block') {
     showAdvancedSearchButton.style.backgroundColor = 'white';
     showAdvancedSearchButton.textContent = 'Advanced search';
     advancedSearchSection.style.display = 'none';
+  }
+  else {
+    showAdvancedSearchButton.style.backgroundColor = 'rgb(236, 182, 2)';
+    showAdvancedSearchButton.textContent = 'Close search';
+    advancedSearchSection.style.display = 'block';
   }
 });
 
