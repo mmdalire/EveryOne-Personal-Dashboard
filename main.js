@@ -457,7 +457,7 @@ const changeWeatherBackground = (weather, time) => {
   const creditLink = document.createElement('a');
   footerCredit.textContent = '';
 
-  if(weather === 'Rain') {
+  if(weather === 'Rain' || weather === 'Thunderstorm') {
     if(time >= 7 && time < 19) {
       wallpaper.style.background = 'url(images/rain-day.jpg)';
       wallpaper.style.backgroundPosition = 'center bottom';
