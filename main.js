@@ -89,7 +89,7 @@ const changeTime = () => {
   }
 
   //Make the clock run automatically
-  //setInterval(changeTime, 1000);
+  setInterval(changeTime, 1000);
 };
 
 const changeWallpaper = (hours) => {
