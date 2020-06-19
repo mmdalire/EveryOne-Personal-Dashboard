@@ -1,275 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="A personal dashboard where you can create your reminders using todo list, view the current weather, and daily news headlines.">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A personal dashboard where you can create your reminders using todo list, view the current weather, and daily news headlines."
+    />
     <title>EveryOne Personal Dashboard</title>
-    <link rel="stylesheet" href="style/style.css">
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
-    <script defer src="https://kit.fontawesome.com/9f767eca8f.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style/style.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css"
+    />
+    <link rel="stylesheet" href="style/owfont-regular.min.css" />
+    <script
+      defer
+      src="https://kit.fontawesome.com/9f767eca8f.js"
+      crossorigin="anonymous"
+    ></script>
     <script defer src="main.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="widget-items">
-            <div class="widget-icon" id="news-logo">
-                <i class="far fa-newspaper fa-3x"></i>
-            </div>
-            <div class="widget-icon" id="weather-icon">
-                <i class="fas fa-cloud-sun-rain fa-3x"></i>
-            </div>
-            <div class="widget-icon" id="todo-icon">
-                <i class="fas fa-clipboard-list fa-3x"></i>
-            </div>
+      <div class="widget-items">
+        <div class="widget-icon" id="news-logo">
+          <i class="far fa-newspaper fa-3x"></i>
         </div>
-        <div class="text-display">
-            <h2 id="time"></h2>
-            <h3>
-                <span id="greeting"></span>
-                <span id="greeting-person" contenteditable="true">[Enter name here]</span>
-            </h3>
-            <h3>
-                <span id="message">What is your main focus for today?</span>
-                <span id="message-content" contenteditable="true"></span>
-            </h3>
+        <div class="widget-icon" id="weather-icon">
+          <i class="fas fa-cloud-sun-rain fa-3x"></i>
         </div>
-        <div class="todo-container">
-            <div class="todo-list-container">
-                <i class="fas fa-times" id="close"></i>
-                <button id="add-todo">+ Add to-do</button>
-                <div class="add-todo-lists">
-                    <label for="name-of-todo">Name: </label><br>
-                    <input type="text" id="name-of-todo" placeholder="Required"><br>
-
-                    <label for="date-of-todo">Date: </label><br>
-                    <input type="date" id="date-of-todo"><br>
-
-                    <label for="time-of-todo">Time: </label><br>
-                    <input type="time" id="time-of-todo"><br>
-
-                    <label for="description-of-todo">Description: </label><br>
-                    <textarea name="description-of-todo" id="description-of-todo" placeholder="Optional"></textarea><br>
-
-                    <input type="submit" value="Add todo" id="create-todo">
-                </div>
-                <div class="todo-lists"></div>
-            </div>
+        <div class="widget-icon" id="todo-icon">
+          <i class="fas fa-clipboard-list fa-3x"></i>
         </div>
-        <div class="weather-container">
-            <div class="modal-container">
-                <div class="modal-content">
-                    <div class="modal-header"></div>
-                    <p></p>
-                    <button id="ok">OK</button>
-                </div>
-            </div>
-            <div class="weather-list-container">
-                <i class="fas fa-times" id="close"></i>
-                <div class="weather-information">
-                    <div class="search-location">
-                        <div class="weather-location" id="country-location">
-                            <i class="fas fa-map-marker-alt" id="location"></i>
-                            <input type="text" id="country-input" placeholder="Enter country"><br>
-                        </div>
-                        <div class="weather-location" id="city-location">
-                            <i class="fas fa-map-marker-alt" id="location"></i>
-                            <input type="text" id="city-input" placeholder="Enter city"><br>
-                        </div>
-                        <div class="submit-container">
-                            <button class="weather-location" id="submit-location">
-                                Send location
-                            </button>
-                        </div>
-                    </div>
-                    <div class="weather-display">
-                        <img src="" id="current-weather">
-                        <div class="weather-section" id="weather-width">
-                            <div class="weather-display-location">
-                                <span id="city">--</span>
-                                <span id="country">--</span>
-                            </div>
-                            <div class="weather-current-temperature">--</div>
-                            <span class="weather-high-temperature">--</span>
-                            <span class="weather-low-temperature">--</span>
-                        </div>
-                        <div class="weather-section" id="weather-info-height">
-                            <span id="weather-section-display">
-                                <i class="wi wi-small-craft-advisory" id="other-icon"></i> Main weather:
-                            </span>
-                            <span id="weather-main">--</span><br>
+      </div>
+      <div class="text-display">
+        <h2 id="time"></h2>
+        <h3>
+          <span id="greeting"></span>
+          <span id="greeting-person" contenteditable="true"
+            >[Enter name here]</span
+          >
+        </h3>
+        <h3>
+          <span id="message">What is your main focus for today?</span>
+          <span id="message-content" contenteditable="true"></span>
+        </h3>
+      </div>
+      <div class="todo-container">
+        <div class="todo-list-container">
+          <i class="fas fa-times" id="close"></i>
+          <button id="add-todo">+ Add to-do</button>
+          <div class="add-todo-lists">
+            <label for="name-of-todo">Name: </label><br />
+            <input type="text" id="name-of-todo" placeholder="Required" /><br />
 
-                            <span id="weather-section-display">
-                                <i class="wi wi-small-craft-advisory" id="other-icon"></i> Description:
-                            </span>
-                            <span id="weather-description">--</span><br>
+            <label for="date-of-todo">Date: </label><br />
+            <input type="date" id="date-of-todo" /><br />
 
-                            <span id="weather-section-display">
-                                <i class="wi wi-strong-wind" id="other-icon"></i> Wind:
-                            </span>
-                            <span id="wind-information">--</span><br>
+            <label for="time-of-todo">Time: </label><br />
+            <input type="time" id="time-of-todo" /><br />
 
-                            <span id="weather-section-display">
-                                <i class="wi wi-cloud" id="other-icon"></i> Cloudiness:
-                            </span>
-                            <span id="cloud-information">--</span><br>
+            <label for="description-of-todo">Description: </label><br />
+            <textarea
+              name="description-of-todo"
+              id="description-of-todo"
+              placeholder="Optional"
+            ></textarea
+            ><br />
 
-                            <span id="weather-section-display">
-                                <i class="wi wi-barometer" id="other-icon"></i> Pressure:
-                            </span>
-                            <span id="pressure-information">--</span>
-
-                            <span id="weather-section-display">
-                                <i class="wi wi-humidity" id="other-icon"></i> Humidity:
-                            </span>
-                            <span id="humidity-information">--</span><br>
-
-                            <span id="weather-section-display">
-                                <i class="wi wi-sunrise" id="other-icon"></i> Sunrise:
-                            </span>
-                            <span id="sunrise-information">--:--</span>
-
-                            <span id="weather-section-display">
-                                <i class="wi wi-sunset" id="other-icon"></i> Sunset:
-                            </span>
-                            <span id="sunset-information">--:--</span><br>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <input type="submit" value="Add todo" id="create-todo" />
+          </div>
+          <div class="todo-lists"></div>
         </div>
-        <div class="news-container">
-            <div class="modal-container">
-                <div class="modal-content">
-                    <div class="modal-header"></div>
-                    <p></p>
-                    <button id="ok">OK</button>
-                </div>
-            </div>
-            <div class="news-list-container">
-                <i class="fas fa-times" id="close"></i>
-                <div class="search-news">
-                    <i class="fas fa-search" id="search"></i>
-                    <input type="text" placeholder="Search using keywords" id="input-keywords">
-                </div>
-                <div class="news-buttons">
-                    <button id="search-news-keyword">Search</button>
-                    <button id="show-advanced-search">Advanced search</button>
-                </div>
-                <div class="advanced-search-section">
-                    <label for="category">Catergory:</label><br>
-                    <select name="news-category" id="news-category">
-                        <option value="none">--Choose category--</option>
-                        <option value="business">Business</option>
-                        <option value="entertainment">Entertainment</option>
-                        <option value="general">General</option>
-                        <option value="health">Health</option>
-                        <option value="science">Science</option>
-                        <option value="sports">Sports</option>
-                        <option value="technology">Technology</option>
-                    </select><br>
-
-                    <label for="news-country">Country:</label><br>
-                    <select name="news-country" id="news-country">
-                        <option value="none">--Choose country--</option>
-                        <option value="ar">Argentina</option>
-                        <option value="at">Austria</option>
-                        <option value="au">Australia</option>
-                        <option value="be">Belgium</option>
-                        <option value="bg">Bulgaria</option>
-                        <option value="br">Brazil</option>
-                        <option value="ca">Canada</option>
-                        <option value="cn">China</option>
-                        <option value="co">Colombia</option>
-                        <option value="cu">Cuba</option>
-                        <option value="cz">Czech Republic</option>
-                        <option value="eg">Egypt</option>
-                        <option value="fr">France</option>
-                        <option value="de">Germany</option>
-                        <option value="gr">Greece</option>
-                        <option value="hk">Hong Kong</option>
-                        <option value="hu">Hungary</option>
-                        <option value="id">Indonesia</option>
-                        <option value="ie">Ireland</option>
-                        <option value="is">Israel</option>
-                        <option value="in">India</option>
-                        <option value="it">Italy</option>
-                        <option value="jp">Japan</option>
-                        <option value="lt">Lithuania</option>
-                        <option value="lv">Latvia</option>
-                        <option value="ma">Morocco</option>
-                        <option value="mx">Mexico</option>
-                        <option value="my">Malaysia</option>
-                        <option value="ng">Nigeria</option>
-                        <option value="nl">Netherlands</option>
-                        <option value="no">Norway</option>
-                        <option value="nz">New Zealand</option>
-                        <option value="ph">Philippines</option>
-                        <option value="pl">Poland</option>
-                        <option value="pt">Portugal</option>
-                        <option value="ro">Romania</option>
-                        <option value="ru">Russian</option>
-                        <option value="rs">Serbia</option>
-                        <option value="sa">Saudi Arabia</option>
-                        <option value="sg">Singapore</option>
-                        <option value="si">Slovenia</option>
-                        <option value="sk">Slovakia</option>
-                        <option value="za">South Africa</option>
-                        <option value="kr">South Korea</option>
-                        <option value="se">Sweden</option>
-                        <option value="ch">Switzerland</option>
-                        <option value="th">Thailand</option>
-                        <option value="tr">Turkey</option>
-                        <option value="tw">Taiwan</option>
-                        <option value="ua">Ukraine</option>
-                        <option value="ae">United Arab Emirates</option>
-                        <option value="gb">United Kingdom</option>
-                        <option value="us">United States</option>
-                        <option value="ve">Venezuela</option>
-                    </select><br>
-
-                    <input type="submit" value="Search" id="advanced-search-news">
-
-                    <div class="news-reminder">
-                        *Take note that <b>Everything</b> doesn't take 'Category' and 'Country' as a parameter to
-                        search.
-                    </div>
-                </div>
-                <h2 id="endpoint-type"></h2>
-                <div class="headline-section"></div>
-            </div>
+      </div>
+      <div class="weather-container">
+        <div class="modal-container">
+          <div class="modal-content">
+            <div class="modal-header"></div>
+            <p></p>
+            <button id="ok">OK</button>
+          </div>
         </div>
+        <div class="weather-list-container">
+          <i class="fas fa-times" id="close"></i>
+          <div class="weather-information">
+            <div class="search-location">
+              <div class="weather-location" id="country-location">
+                <i class="fas fa-map-marker-alt" id="location"></i>
+                <input
+                  type="text"
+                  id="country-input"
+                  placeholder="Enter country"
+                /><br />
+              </div>
+              <div class="weather-location" id="city-location">
+                <i class="fas fa-map-marker-alt" id="location"></i>
+                <input
+                  type="text"
+                  id="city-input"
+                  placeholder="Enter city"
+                /><br />
+              </div>
+              <div class="submit-container">
+                <button class="weather-location" id="submit-location">
+                  Send location
+                </button>
+              </div>
+            </div>
+            <div class="weather-display">
+              <i id="current-weather"></i>
+              <div class="weather-section" id="weather-width">
+                <div class="weather-display-location">
+                  <span id="city">--</span>
+                  <span id="country">--</span>
+                </div>
+                <div class="weather-current-temperature">--</div>
+                <span class="weather-high-temperature">--</span>
+                <span class="weather-low-temperature">--</span>
+              </div>
+              <div class="weather-section" id="weather-info-height">
+                <span id="weather-section-display">
+                  <i class="wi wi-small-craft-advisory" id="other-icon"></i>
+                  Main weather:
+                </span>
+                <span id="weather-main">--</span><br />
+
+                <span id="weather-section-display">
+                  <i class="wi wi-small-craft-advisory" id="other-icon"></i>
+                  Description:
+                </span>
+                <span id="weather-description">--</span><br />
+
+                <span id="weather-section-display">
+                  <i class="wi wi-strong-wind" id="other-icon"></i> Wind:
+                </span>
+                <span id="wind-information">--</span><br />
+
+                <span id="weather-section-display">
+                  <i class="wi wi-cloud" id="other-icon"></i> Cloudiness:
+                </span>
+                <span id="cloud-information">--</span><br />
+
+                <span id="weather-section-display">
+                  <i class="wi wi-barometer" id="other-icon"></i> Pressure:
+                </span>
+                <span id="pressure-information">--</span>
+
+                <span id="weather-section-display">
+                  <i class="wi wi-humidity" id="other-icon"></i> Humidity:
+                </span>
+                <span id="humidity-information">--</span><br />
+
+                <span id="weather-section-display">
+                  <i class="wi wi-sunrise" id="other-icon"></i> Sunrise:
+                </span>
+                <span id="sunrise-information">--:--</span>
+
+                <span id="weather-section-display">
+                  <i class="wi wi-sunset" id="other-icon"></i> Sunset:
+                </span>
+                <span id="sunset-information">--:--</span><br />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="news-container">
+        <div class="modal-container">
+          <div class="modal-content">
+            <div class="modal-header"></div>
+            <p></p>
+            <button id="ok">OK</button>
+          </div>
+        </div>
+        <div class="news-list-container">
+          <i class="fas fa-times" id="close"></i>
+          <div class="search-news">
+            <i class="fas fa-search" id="search"></i>
+            <input
+              type="text"
+              placeholder="Search using keywords"
+              id="input-keywords"
+            />
+          </div>
+          <div class="news-buttons">
+            <button id="search-news-keyword">Search</button>
+            <button id="show-advanced-search">Advanced search</button>
+          </div>
+          <div class="advanced-search-section">
+            <label for="category">Catergory:</label><br />
+            <select name="news-category" id="news-category">
+              <option value="none">--Choose category--</option>
+              <option value="business">Business</option>
+              <option value="entertainment">Entertainment</option>
+              <option value="general">General</option>
+              <option value="health">Health</option>
+              <option value="science">Science</option>
+              <option value="sports">Sports</option>
+              <option value="technology">Technology</option> </select
+            ><br />
+
+            <label for="news-country">Country:</label><br />
+            <select name="news-country" id="news-country">
+              <option value="none">--Choose country--</option>
+              <option value="ar">Argentina</option>
+              <option value="at">Austria</option>
+              <option value="au">Australia</option>
+              <option value="be">Belgium</option>
+              <option value="bg">Bulgaria</option>
+              <option value="br">Brazil</option>
+              <option value="ca">Canada</option>
+              <option value="cn">China</option>
+              <option value="co">Colombia</option>
+              <option value="cu">Cuba</option>
+              <option value="cz">Czech Republic</option>
+              <option value="eg">Egypt</option>
+              <option value="fr">France</option>
+              <option value="de">Germany</option>
+              <option value="gr">Greece</option>
+              <option value="hk">Hong Kong</option>
+              <option value="hu">Hungary</option>
+              <option value="id">Indonesia</option>
+              <option value="ie">Ireland</option>
+              <option value="is">Israel</option>
+              <option value="in">India</option>
+              <option value="it">Italy</option>
+              <option value="jp">Japan</option>
+              <option value="lt">Lithuania</option>
+              <option value="lv">Latvia</option>
+              <option value="ma">Morocco</option>
+              <option value="mx">Mexico</option>
+              <option value="my">Malaysia</option>
+              <option value="ng">Nigeria</option>
+              <option value="nl">Netherlands</option>
+              <option value="no">Norway</option>
+              <option value="nz">New Zealand</option>
+              <option value="ph">Philippines</option>
+              <option value="pl">Poland</option>
+              <option value="pt">Portugal</option>
+              <option value="ro">Romania</option>
+              <option value="ru">Russian</option>
+              <option value="rs">Serbia</option>
+              <option value="sa">Saudi Arabia</option>
+              <option value="sg">Singapore</option>
+              <option value="si">Slovenia</option>
+              <option value="sk">Slovakia</option>
+              <option value="za">South Africa</option>
+              <option value="kr">South Korea</option>
+              <option value="se">Sweden</option>
+              <option value="ch">Switzerland</option>
+              <option value="th">Thailand</option>
+              <option value="tr">Turkey</option>
+              <option value="tw">Taiwan</option>
+              <option value="ua">Ukraine</option>
+              <option value="ae">United Arab Emirates</option>
+              <option value="gb">United Kingdom</option>
+              <option value="us">United States</option>
+              <option value="ve">Venezuela</option> </select
+            ><br />
+
+            <input type="submit" value="Search" id="advanced-search-news" />
+
+            <div class="news-reminder">
+              *Take note that <b>Everything</b> doesn't take 'Category' and
+              'Country' as a parameter to search.
+            </div>
+          </div>
+          <h2 id="endpoint-type"></h2>
+          <div class="headline-section"></div>
+        </div>
+      </div>
     </div>
     <footer>
-        <div class="footer-main">
-            <div class="footer-title">
-                <img src="images/js-logo.png" id="logo" alt="JS logo">
-                <div class="footer-details">
-                    <h1>EveryOne Personal Dashboard</h1>
-                    <h3>Date started: <date>April 16, 2020</date>
-                    </h3>
-                    <h3>Date ended: <date>May 3, 2020</date>
-                    </h3>
-                    <h3>Last updated: <date>May 9, 2020</date>
-                    </h3>
-                </div>
-            </div>
-            <div class="footer-powered-api">
-                <h3>Powered by:</h3>
-                <div class="api-images">
-                    <a href="https://openweathermap.org/" target="_blank"><img src="images/openweather-api.png"
-                            alt="OpenWeatherMap API logo"></a>
-                    <a href="https://newsapi.org/" target="_blank"><img src="images/news-api.png"
-                            alt="News API logo"></a>
-                </div>
-            </div>
+      <div class="footer-main">
+        <div class="footer-title">
+          <img src="images/js-logo.png" id="logo" alt="JS logo" />
+          <div class="footer-details">
+            <h1>EveryOne Personal Dashboard</h1>
+            <h3>Date started: <date>April 16, 2020</date></h3>
+            <h3>Date ended: <date>May 3, 2020</date></h3>
+            <h3>Last updated: <date>June 19, 2020</date></h3>
+          </div>
         </div>
-        <div class="footer-image-credits"></div>
-    </footer>
-</body>
+        <div class="footer-powered-api">
+          <h3>Powered by:</h3>
+          <div class="api-images">
+            <a href="https://openweathermap.org/" target="_blank"
+              ><img
+                src="images/openweather-api.png"
+                alt="OpenWeatherMap API logo"
+            /></a>
 
+            <a href="https://newsapi.org/" target="_blank"
+              ><img src="images/news-api.png" alt="News API logo"
+            /></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-image-credits"></div>
+    </footer>
+  </body>
 </html>
